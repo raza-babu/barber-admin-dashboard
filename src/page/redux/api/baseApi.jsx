@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { message } from "antd";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://backend.barberstime.com/api/v1",
@@ -17,6 +18,7 @@ export const baseApi = createApi({
     const result = await baseQuery(args, api, extraOptions);
     if (result?.error?.status === 401) {
       localStorage.clear();
+      message.error("Session Expired");
       window.location.href = "/login";
     }
     return result;
@@ -24,5 +26,3 @@ export const baseApi = createApi({
   tagTypes: ["overview", "host"],
   endpoints: () => ({}),
 });
-
-

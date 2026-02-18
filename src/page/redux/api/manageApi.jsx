@@ -2,8 +2,7 @@ import { baseApi } from "./baseApi";
 
 const businessApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-
-     getDasboard: builder.query({
+    getDasboard: builder.query({
       query: () => {
         return {
           url: `/admin/dashboard`,
@@ -23,8 +22,6 @@ const businessApi = baseApi.injectEndpoints({
       providesTags: ["updateProfile"],
     }),
 
-
-    
     getRegisterBarberOwner: builder.query({
       query: () => {
         return {
@@ -96,10 +93,23 @@ const businessApi = baseApi.injectEndpoints({
     }),
 
     getCustomer: builder.query({
-      query: ({ status, page, limit, searchTerm }) => {
+      query: (argsValues) => {
+        const params = new URLSearchParams();
+        console.log(argsValues);
+        const args = Object.keys(argsValues);
+
+        if (args !== undefined && args.length > 0) {
+          args.forEach((key) => {
+            if (argsValues[key]) {
+              params.append(key, argsValues[key]);
+            }
+          });
+        }
+
         return {
-          url: `/admin/customers?status=${status}&searchTerm=${searchTerm}&page=${page}&limit=${limit}`,
+          url: `/admin/customers`,
           method: "GET",
+          params
         };
       },
       providesTags: ["updateProfile"],
@@ -199,7 +209,7 @@ const businessApi = baseApi.injectEndpoints({
       invalidatesTags: ["updateProfile"],
     }),
 
-     deleteSubscription: builder.mutation({
+    deleteSubscription: builder.mutation({
       query: (id) => {
         return {
           url: `/subscription-plans/${id}`,
@@ -208,7 +218,6 @@ const businessApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["updateProfile"],
     }),
-
 
     getAddPromotion: builder.query({
       query: () => {
@@ -447,7 +456,7 @@ const businessApi = baseApi.injectEndpoints({
 export const {
   useGetBarberOwnerQuery,
   useGetRegisterBarberOwnerQuery,
-  
+
   useGetSingleReplyQuery,
   useBlockOwnerMutation,
   useGetAllReportsQuery,
@@ -487,5 +496,5 @@ export const {
   useGetSingleAllBarberQuery,
   useGetAllSubscriberQuery,
   useGetDasboardQuery,
-  useDeleteSubscriptionMutation
+  useDeleteSubscriptionMutation,
 } = businessApi;
