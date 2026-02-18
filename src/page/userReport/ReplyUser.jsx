@@ -1,21 +1,16 @@
 import { Form, Input, message, Modal } from "antd";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import {
   useGetSingleReplyQuery,
   useReplyUserMutation,
 } from "../redux/api/manageApi";
 
 const ReplyUser = ({ openAddModal, setOpenAddModal, selectedUser }) => {
-  console.log(selectedUser?.id);
-  console.log(selectedUser?.key);
   const id = selectedUser?.key;
-  console.log(id);
   const [form] = Form.useForm();
   const { data: singleReply } = useGetSingleReplyQuery({ id });
-  console.log(singleReply);
   const [replyUser] = useReplyUserMutation();
   const handleCancel = () => {
-   
     setOpenAddModal(false);
   };
   useEffect(() => {
@@ -27,7 +22,6 @@ const ReplyUser = ({ openAddModal, setOpenAddModal, selectedUser }) => {
   }, [singleReply, form]);
   const handleSubmit = async (values) => {
     const id = selectedUser?.key;
-    console.log(values);
     const data = {
       userId: selectedUser?.id,
       message: values?.message,
@@ -39,7 +33,6 @@ const ReplyUser = ({ openAddModal, setOpenAddModal, selectedUser }) => {
       message.success(response?.message);
       setOpenAddModal(false);
     } catch (error) {
-      console.error(error);
       message.error(error?.data?.message);
     }
   };
@@ -64,15 +57,17 @@ const ReplyUser = ({ openAddModal, setOpenAddModal, selectedUser }) => {
           </Form.Item>
           <div className="flex gap-3 mt-3">
             <button
-  type="submit"
-  disabled={!!singleReply?.data?.message}
-  className={`px-4 py-3 w-full rounded-md text-white 
-    ${singleReply?.data?.message 
-      ? "bg-gray-400 cursor-not-allowed" 
-      : "bg-[#D17C51]"}`}
->
-  Reply
-</button>
+              type="submit"
+              disabled={!!singleReply?.data?.message}
+              className={`px-4 py-3 w-full rounded-md text-white 
+    ${
+      singleReply?.data?.message
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-[#D17C51]"
+    }`}
+            >
+              Reply
+            </button>
 
             <button
               type="button"

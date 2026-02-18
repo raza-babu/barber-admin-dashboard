@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Navigate } from "../../Navigate";
 import { Switch } from "antd";
 import { PersonalDetails } from "./PersonalDetails";
@@ -12,8 +12,6 @@ export const BarberOwnerDetails = () => {
   const [selectedTab, setSelectedTab] = useState("personal");
   const { id } = useParams();
   const {data : singleBarber} = useGetSingleBarberOwnerQuery({ id }, { refetchOnMountOrArgChange: true })
-  console.log(singleBarber)
-  console.log(id)
   return (
     <div className="bg-white p-3 h-[87vh]">
       <div>

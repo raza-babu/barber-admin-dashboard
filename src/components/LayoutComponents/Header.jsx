@@ -4,18 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { useRef, useState } from "react";
 import { Drawer, Radio, Space } from "antd";
-import dashboard from "../../assets/routerImg/dashboard.png";
-import categorie from "../../assets/routerImg/categorie.png";
-import create from "../../assets/routerImg/create.png";
-import settings from "../../assets/routerImg/settings.png";
-import subscription from "../../assets/routerImg/subscription.png";
-import user from "../../assets/routerImg/user.png";
 import logo from "../../assets/logo.png";
-
 import { FaChevronRight, FaUserAstronaut, FaUserTie } from "react-icons/fa";
 import { IoIosLogIn, IoMdCut } from "react-icons/io";
-import { logout } from "../../page/redux/features/auth/authSlice";
-import { useDispatch } from "react-redux";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { TbUserCircle } from "react-icons/tb";
 import {
@@ -126,7 +117,6 @@ const Header = () => {
   const [expandedKeys, setExpandedKeys] = useState([]);
   const navigate = useNavigate();
   const { data: profileData } = useGetProfileQuery();
-  console.log(profileData)
   const contentRef = useRef({});
 
   const onParentClick = (key) => {
@@ -135,9 +125,6 @@ const Header = () => {
     );
   };
 
-  const onClick = (key) => {
-    setSelectedKey(key);
-  };
 
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState("left");

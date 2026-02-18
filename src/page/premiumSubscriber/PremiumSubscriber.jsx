@@ -5,18 +5,15 @@ import { useGetAllSubscriberQuery } from "../redux/api/manageApi";
 import { useState } from "react";
 
 const PremiumSubscriber = () => {
-      const [searchTerm, setSearch] = useState("");
-  console.log(searchTerm)
+  const [searchTerm, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   const pageSize = 10;
   const { data: subscriber, isLoading } = useGetAllSubscriberQuery({
-        
-    searchTerm:searchTerm,
-     page: currentPage,
+    searchTerm: searchTerm,
+    page: currentPage,
     limit: pageSize,
   });
-  console.log(subscriber)
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -76,9 +73,7 @@ const PremiumSubscriber = () => {
       title: "Interval",
       dataIndex: "interval",
       key: "interval",
-      render: (interval) => (
-        <span className="text-[#D17C51]">{interval}</span>
-      ),
+      render: (interval) => <span className="text-[#D17C51]">{interval}</span>,
     },
     {
       title: "Subscription Fee",
@@ -108,7 +103,7 @@ const PremiumSubscriber = () => {
       <div className="flex justify-between items-center">
         <Navigate title={"Premium Subscribers"} />
         <Input
-           onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
           placeholder="Search"
           prefix={<SearchOutlined />}
           className="w-64 px-4 py-2 rounded-lg bg-white"
@@ -127,16 +122,15 @@ const PremiumSubscriber = () => {
           />
         </div>
       </div>
-       <div className="mt-4 flex justify-center">
-          <Pagination
-            current={currentPage}
-            pageSize={pageSize}
-            total={subscriber?.meta?.total || 0}
-            onChange={handlePageChange}
-            showSizeChanger={false}
-            
-          />
-        </div>
+      <div className="mt-4 flex justify-center">
+        <Pagination
+          current={currentPage}
+          pageSize={pageSize}
+          total={subscriber?.meta?.total || 0}
+          onChange={handlePageChange}
+          showSizeChanger={false}
+        />
+      </div>
     </div>
   );
 };

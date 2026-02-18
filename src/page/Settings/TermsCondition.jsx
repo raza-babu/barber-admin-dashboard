@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import JoditEditor from 'jodit-react';
 import { message, Spin } from 'antd';
-import { useNavigate } from 'react-router-dom';
 import { Navigate } from '../../Navigate';
 import { useGetTermsQuery, useUpdateTermsMutation } from '../redux/api/manageApi';
 
@@ -13,7 +12,6 @@ const TermsCondition = () => {
   const [content, setContent] = useState('');
   const [id, setId] = useState(null); // update korar jonno id
   const [isLoading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (privecyData?.data?.length > 0) {
@@ -34,8 +32,7 @@ const TermsCondition = () => {
     try {
       const res = await updatePrivecy({ id, data }).unwrap(); // id o content pathai
       message.success(res?.message );
-    } catch (error) {
-      console.error(error);
+    } catch {
       message.error("Update failed!");
     }
     setLoading(false);

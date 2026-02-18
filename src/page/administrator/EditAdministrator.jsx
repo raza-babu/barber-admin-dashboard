@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import { Form, Input, Modal, Select, Checkbox, message } from "antd";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useGetAllAccessFunctionsQuery,
   useUpdateAccessFunctionMutation,
@@ -66,7 +67,6 @@ const EditAdministrator = ({ editModal, setEditModal, selectedUser }) => {
       message.success(response?.message);
       handleCancel();
     } catch (error) {
-      console.error(error);
       message.error(error?.data?.message);
     }
   };

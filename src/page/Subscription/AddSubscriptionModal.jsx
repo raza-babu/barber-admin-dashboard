@@ -1,5 +1,4 @@
 import { Form, Input, message, Modal, Select } from "antd";
-import React, { useState } from "react";
 import { useAddSubscriptionMutation } from "../redux/api/manageApi";
 
 export const AddSubscriptionModal = ({ openAddModal, setOpenAddModal }) => {
@@ -13,21 +12,18 @@ export const AddSubscriptionModal = ({ openAddModal, setOpenAddModal }) => {
   };
 
   const handleSubmit = async (values) => {
-    console.log(values);
     const data = {
       duration: values?.duration,
       price: Number(values?.price),
       description: values?.description,
       title: values?.title,
     };
-    console.log(data);
     try {
       const response = await addSubscription(data).unwrap();
 
       message.success(response?.message);
       setOpenAddModal(false);
     } catch (error) {
-      console.error(error);
       message.error(error?.data?.message);
     }
   };

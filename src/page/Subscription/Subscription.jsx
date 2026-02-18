@@ -13,7 +13,6 @@ const Subscription = () => {
 const [deleteSubscription] = useDeleteSubscriptionMutation()
   // API Call
   const { data: subscriptionData, isLoading } = useGetSubscriptionQuery();
-  console.log(subscriptionData);
   const [selectedUser, setSelectedUser] = useState(null);
   const handleEdit = (record) => {
     setSelectedUser(record);

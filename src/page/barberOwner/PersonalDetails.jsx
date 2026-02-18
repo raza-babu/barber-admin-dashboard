@@ -1,7 +1,5 @@
-import React from 'react'
 
-export const PersonalDetails = ({singleBarber}) => {
-  console.log(singleBarber)
+export const PersonalDetails = ({ singleBarber }) => {
   return (
     <div>
         <div className="mt-6 space-y-4">

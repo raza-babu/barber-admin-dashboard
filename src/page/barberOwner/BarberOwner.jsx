@@ -11,9 +11,7 @@ import {
 
 const BarberOwner = () => {
   const [status, setStatus] = useState(""); 
-  console.log(status)
   const [searchTerm, setSearch] = useState("");
-  console.log(searchTerm);
   const [currentPage, setCurrentPage] = useState(1);
 
   const pageSize = 10;
@@ -47,18 +45,15 @@ const BarberOwner = () => {
   }, [barberData]);
 
   const handleBlockToggle = async (record, checked) => {
-    console.log(checked);
     try {
       const res = await blockUser({
         id: record.key,
         data: checked,
       }).unwrap();
-      console.log(res);
       message.success(res?.message);
 
       refetch();
-    } catch (err) {
-      console.error(err);
+    } catch{
       message.error("Failed to update status ❌");
     }
   };

@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import { Form, Modal, Upload, DatePicker, Input, message } from "antd";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useUpdateAddPromotionMutation } from "../redux/api/manageApi";
 
@@ -107,8 +108,7 @@ const EditPromotionModal = ({ editModal, setEditModal, selectedUser }) => {
       } else {
         message.error(res?.data?.error || "Update failed");
       }
-    } catch (error) {
-      console.error(error);
+    } catch{
       message.error("Something went wrong!");
     }
   };

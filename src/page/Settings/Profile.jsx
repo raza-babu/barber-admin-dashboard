@@ -10,7 +10,6 @@ import {
 } from "../redux/api/manageApi";
 
 const Profile = () => {
-  const [profilePic, setProfilePic] = useState(null);
   const [activeTab, setActiveTab] = useState("1");
   const { data: profileData } = useGetProfileQuery();
   const [updateProfileData] = useUpdateProfileDataMutation();
@@ -32,7 +31,6 @@ const Profile = () => {
       message.success(response?.message);
       setImage(null);
     } catch (error) {
-      console.error(error);
       message.error(error?.data?.message || "Failed to upload image ❌");
     }
   };
@@ -50,19 +48,16 @@ const Profile = () => {
   }, [profileData, form]);
 
   const handleProfileUpdate = async (values) => {
-    console.log(values);
     const data = {
       phoneNumber: values?.phoneNumber,
       fullName: values?.fullName,
       gender: values?.gender,
     };
-    console.log(data);
     try {
       const response = await updateProfileData(data).unwrap();
 
       message.success(response?.message);
     } catch (error) {
-      console.error(error);
       message.error(error?.data?.message);
     }
   };
@@ -115,8 +110,6 @@ const Profile = () => {
               <button
                 className="bg-[#9C5F46] text-white py-2 px-5"
                 type="submit"
-                htmlType="submit"
-                block
               >
                 Save Changes
               </button>

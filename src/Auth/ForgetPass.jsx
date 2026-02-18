@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Button, Checkbox, Form, Input, message } from "antd";
+import { useNavigate } from "react-router-dom";
+import { Form, Input, message } from "antd";
 import img from "../assets/header/auth.png";
 import { useForgotPasswordMutation } from "../page/redux/api/userApi";
 
@@ -7,7 +7,6 @@ const ForgetPass = () => {
   const [forgetPassword] = useForgotPasswordMutation()
    const navigate = useNavigate()
   const onFinish = async (values) => {
-    console.log(values);
 
     forgetPassword(values)
       .unwrap()
@@ -63,6 +62,7 @@ const ForgetPass = () => {
               
                   <button
                     type="primary"
+                    // eslint-disable-next-line react/no-unknown-property
                     htmlType="submit"
                     className="w-full py-2 mt-6 bg-[#D17C51] text-white rounded  focus:ring-2 focus:ring-gray-500"
                   >

@@ -1,5 +1,5 @@
 import { Form, Input, message, Modal, Select } from "antd";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useUpdateSubscriptionMutation } from "../redux/api/manageApi";
 
 export const EditSubscriptionModal = ({
@@ -7,7 +7,6 @@ export const EditSubscriptionModal = ({
   setEditModal,
   selectedUser,
 }) => {
-  console.log(selectedUser);
   const [updateSubscription] = useUpdateSubscriptionMutation();
 
   const [form] = Form.useForm();
@@ -29,7 +28,6 @@ export const EditSubscriptionModal = ({
   }, [selectedUser, form]);
 //dd
   const handleSubmit = async (values) => {
-    console.log(values);
     const id =selectedUser?.key
     const data = {
       duration: values?.duration,
@@ -37,14 +35,12 @@ export const EditSubscriptionModal = ({
       description: values?.description,
       title: values?.title,
     };
-    console.log(data);
     try {
       const response = await updateSubscription({data, id}).unwrap();
 
       message.success(response?.message);
       setEditModal(false);
     } catch (error) {
-      console.error(error);
       message.error(error?.data?.message);
     }
   };

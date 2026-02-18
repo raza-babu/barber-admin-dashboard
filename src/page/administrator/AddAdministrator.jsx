@@ -1,11 +1,12 @@
 import { Form, Input, Modal, Select, Checkbox, message } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
 import { IoCameraOutline } from "react-icons/io5";
 import {
   useAddAdminProvideMutation,
   useGetAllAccessFunctionsQuery,
 } from "../redux/api/manageApi";
 
+// eslint-disable-next-line react/prop-types
 const AddAdministrator = ({ openAddModal, setOpenAddModal }) => {
   const [form] = Form.useForm();
   const [imagePreview, setImagePreview] = useState(null);
@@ -68,7 +69,6 @@ const AddAdministrator = ({ openAddModal, setOpenAddModal }) => {
       message.success(response?.message);
       handleCancel();
     } catch (error) {
-      console.error(error);
       message.error(error?.data?.message);
     }
   };

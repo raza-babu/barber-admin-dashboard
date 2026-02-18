@@ -1,9 +1,8 @@
 import { Form, Input, message, Modal } from "antd";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useUpdateSupportMutation } from "../redux/api/manageApi";
 
 const ReplyUser = ({ openAddModal, setOpenAddModal, selectedUser }) => {
-  console.log(selectedUser);
   const [form] = Form.useForm();
   const handleCancel = () => {
   
@@ -13,7 +12,6 @@ const ReplyUser = ({ openAddModal, setOpenAddModal, selectedUser }) => {
 const [updateSupport] = useUpdateSupportMutation();
 const handleSubmit = async (values) => {
     const id = selectedUser?.supportId;
-    console.log(values);
     const data = {
       userId: selectedUser?.id,
       message: values?.message,
@@ -25,7 +23,6 @@ const handleSubmit = async (values) => {
       message.success(response?.message);
       setOpenAddModal(false);
     } catch (error) {
-      console.error(error);
       message.error(error?.data?.message);
     }
   };

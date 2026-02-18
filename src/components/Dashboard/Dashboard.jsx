@@ -5,11 +5,9 @@ import logo1 from '../../assets/header/mm.png'
 import logo2 from '../../assets/header/pp.png'
 import logo3 from '../../assets/header/qq.png'
 import logo4 from '../../assets/header/hh.png'
-import logo5 from '../../assets/header/pp.png'
 import { useGetDasboardQuery } from "../../page/redux/api/manageApi";
 const Dashboard = () => {
   const {data:dashboardData} = useGetDasboardQuery()
-  console.log(dashboardData)
   return (
     <div className="p-1 min-h-screen">
       <div className=" grid md:grid-cols-4 grid-cols-2 gap-4 text-center py-3">

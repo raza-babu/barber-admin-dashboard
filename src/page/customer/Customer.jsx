@@ -7,7 +7,6 @@ import { useBlockCustomerMutation, useGetCustomerQuery } from "../redux/api/mana
 const Customer = () => {
   const [selectedYear, setSelectedYear] = useState("ACTIVE");
     const [searchTerm, setSearch] = useState("");
-    console.log(searchTerm)
     const [currentPage, setCurrentPage] = useState(1);
     
     const pageSize = 10;
@@ -15,7 +14,6 @@ const Customer = () => {
     searchTerm:searchTerm,
      page: currentPage,
     limit: pageSize,});
-    console.log(customerData)
 
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
@@ -40,7 +38,7 @@ const[blockCustomer, { isLoading: blockLoading }] = useBlockCustomerMutation()
     }));
   }, [customerData]);
 
-const handleBlockToggle = async (record, checked) => {
+const handleBlockToggle = async (record) => {
   try {
   
     const payload = {
@@ -53,8 +51,7 @@ const handleBlockToggle = async (record, checked) => {
     }).unwrap();
 
     message.success(res?.message || "Status updated ✅");
-  } catch (err) {
-    console.error(err);
+  } catch {
     message.error("Failed to update status ❌");
   }
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Table, Button, Modal, Input } from "antd";
 import { EyeOutlined, SearchOutlined } from "@ant-design/icons";
 import { Navigate } from "../../Navigate";
@@ -33,7 +33,6 @@ const Support = () => {
       setFilteredData(formattedData);
     }
   }, [supportData]);
-  console.log(supportData)
 
   const columns = [
     {

@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Navigate } from "../../Navigate";
-import { Table, Input, Tag, Popconfirm, message, Pagination } from "antd";
+import { Table, Input, Tag, Pagination } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import ReplyUser from "./ReplyUser";
 import { useGetAllReportsQuery } from "../redux/api/manageApi";
@@ -10,9 +10,7 @@ const UserReport = () => {
   const [searchTerm, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
-  console.log(searchTerm);
   const [selectedUser, setSelectedUser] = useState(null);
-  console.log(selectedUser);
   // API Call
   const { data: reportData, isLoading } = useGetAllReportsQuery({
     searchTerm,
@@ -20,19 +18,18 @@ const UserReport = () => {
     limit: pageSize,
   });
   const handlePageChange = (page) => setCurrentPage(page);
-  const handleDeleteCategory = async (id) => {
-    console.log(id);
+  //const handleDeleteCategory = async (id) => {
     // try {
     //   const res = await deleteCategory(id).unwrap();
     //   message.success(res?.message);
     // } catch (error) {
     //   message.error(error?.data?.message || "Error deleting FAQ");
     // }
-  };
+  //};
   // data mapping for table
   const tableData = useMemo(() => {
     if (!reportData?.data) return [];
-    return reportData.data.map((item, index) => ({
+    return reportData.data.map((item) => ({
       key: item.reportId,
       id: item.userId,
       fullName: item.userName,

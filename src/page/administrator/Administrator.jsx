@@ -28,13 +28,11 @@ const Administrator = () => {
   const [searchTerm, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
-  console.log(searchTerm);
   const { data: adminData, isLoading } = useGetAllAdminAccessQuery({
     searchTerm,
     page: currentPage,
     limit: pageSize,
   });
-  console.log("Admin Data:", adminData);
   const [selectedUser, setSelectedUser] = useState(null);
   const handleEdit = (record) => {
     setSelectedUser(record);
@@ -42,7 +40,6 @@ const Administrator = () => {
   };
 
   const handleDeleteFaq = async (id) => {
-    console.log(id);
     try {
       const res = await deleteUser(id).unwrap();
       message.success(res?.message);

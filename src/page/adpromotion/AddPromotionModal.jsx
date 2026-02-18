@@ -3,13 +3,10 @@ import {
   Modal,
   Upload,
   DatePicker,
-  TimePicker,
   Input,
   message,
 } from "antd";
-import React, { useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
-import dayjs from "dayjs";
+import { useState } from "react";
 import { useAddAddpromotionMutation } from "../redux/api/manageApi";
 
 const AddPromotionModal = ({ openAddModal, setOpenAddModal }) => {
@@ -66,8 +63,7 @@ const AddPromotionModal = ({ openAddModal, setOpenAddModal }) => {
       } else {
         message.error(message?.data?.error);
       }
-    } catch (error) {
-      console.error(error);
+    } catch{
       message.error(message?.data?.error);
     }
   };

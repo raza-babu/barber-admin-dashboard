@@ -6,19 +6,16 @@ import { useGetAllBarberQuery } from "../redux/api/manageApi";
 import { useMemo, useState } from "react";
 
 export const Barber = () => {
-    const [searchTerm, setSearch] = useState("");
-  console.log(searchTerm)
+  const [searchTerm, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   const pageSize = 10;
   const { data: barbersData, isLoading } = useGetAllBarberQuery({
-        
-    searchTerm:searchTerm,
-     page: currentPage,
+    searchTerm: searchTerm,
+    page: currentPage,
     limit: pageSize,
   });
 
-  console.log(barbersData)
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -38,7 +35,6 @@ export const Barber = () => {
       status: item.status,
     }));
   }, [barbersData]);
-  
 
   const columns = [
     {
@@ -93,17 +89,14 @@ export const Barber = () => {
           placeholder="Search"
           prefix={<SearchOutlined />}
           className="w-64 px-4 py-2 rounded-lg bg-white"
-           onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
         />
       </div>
 
       {/* Filter */}
       <div className="p-2">
         <div className="flex justify-between items-center mb-4">
-          <select
-            className="rounded p-2 px-4 border border-[#C79A88] mr-11"
-          
-          >
+          <select className="rounded p-2 px-4 border border-[#C79A88] mr-11">
             <option value="ACTIVE">Active</option>
             <option value="INACTIVE">Inactive</option>
             <option value="BLOCKED">Blocked</option>
@@ -121,14 +114,13 @@ export const Barber = () => {
             scroll={{ x: 800 }}
           />
         </div>
-         <div className="mt-4 flex justify-center">
+        <div className="mt-4 flex justify-center">
           <Pagination
             current={currentPage}
             pageSize={pageSize}
             total={barbersData?.meta?.total || 0}
             onChange={handlePageChange}
             showSizeChanger={false}
-            
           />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Checkbox, Form, Input, message } from "antd";
+import { Form, Input, message } from "antd";
 import img from '../assets/header/auth.png'
 import { useNavigate } from "react-router-dom";
 import { useResetPasswordMutation } from "../page/redux/api/userApi";
@@ -11,8 +11,6 @@ const ResetPass = () => {
 
   const onFinish = async (values) => {
     
-    console.log(values);
-
     const data = {
       email: localStorage.getItem("email"),
       password: values?.password,

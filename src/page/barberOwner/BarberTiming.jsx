@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 import img1 from "../../assets/header/img11.jpg";
 import img2 from "../../assets/header/img12.jpg";
 
@@ -10,7 +10,6 @@ const barbers = [
 ];
 
 export const BarberTiming = ({ singleBarber }) => {
-  console.log(singleBarber?.data?.schedule);
 
   return (
     <div className=" max-w-5xl">
@@ -36,8 +35,8 @@ export const BarberTiming = ({ singleBarber }) => {
 
       {/* Shop Timings Section */}
 
-      {singleBarber?.data?.schedule?.map((day) => (
-        <div>
+      {singleBarber?.data?.schedule?.map((day, index) => (
+        <div key={index}>
           <h2 className="font-semibold text-xl mt-8 mb-4">Shop Timings</h2>
           <div className="border-t border-gray-300">
             <div className="flex justify-between py-2 border-b">

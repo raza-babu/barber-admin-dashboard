@@ -1,7 +1,7 @@
 import { useState } from "react";
 import OTPInput from "react-otp-input";
 import img from '../assets/header/auth.png'
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 import { useVerifyOtpMutation } from "../page/redux/api/userApi";
 
@@ -23,7 +23,6 @@ const Verify = () => {
       message.success(response?.message);
       navigate("/reset");
     } catch (error) {
-      console.error(error); 
       message.error(error?.data?.message );
     }
   };
@@ -37,7 +36,6 @@ const Verify = () => {
       
   //     message.success(response.message);
   //   } catch (error) {
-  //     console.error(error);
   //     message.error(error?.data?.message || "Failed to resend OTP!");
   //   }
   // };
