@@ -4,12 +4,14 @@ import { Navigate } from "../../Navigate";
 import { useState } from "react";
 import { useGetCustomerQuery } from "../redux/api/manageApi";
 import CustomerTable from "./CustomerTable";
+import useDebounce from "../../hooks/useDebounce";
 
 const Customer = () => {
   const [status, setStatus] = useState("");
-  const [searchTerm, setSearch] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const { searchTerm } = useDebounce({ searchQuery, setCurrentPage })
 
   const {
     data: customerData,
@@ -41,7 +43,7 @@ const Customer = () => {
           <Navigate title={"Customers"} />
         </div>
         <Input
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search"
           prefix={<SearchOutlined />}
           className="w-64 px-4 py-2 rounded-lg bg-white"
