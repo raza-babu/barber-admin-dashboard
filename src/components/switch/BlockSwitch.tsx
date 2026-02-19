@@ -17,7 +17,7 @@ const BlockSwitch = ({ record }) => {
         data: payload,
       }).unwrap();
 
-      message.success(res?.message || "Status updated ✅");
+      //message.success(res?.message || "Status updated ✅");
     } catch {
       message.error("Failed to update status ❌");
     }
@@ -30,6 +30,7 @@ const BlockSwitch = ({ record }) => {
         checked={record.status === "ACTIVE"} // ACTIVE হলে ON
         onChange={(checked) => handleBlockToggle(record, checked)}
         loading={blockLoading}
+        disabled={record.status === "PENDING"}
       />
     </>
   );

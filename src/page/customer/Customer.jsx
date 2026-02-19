@@ -6,26 +6,32 @@ import { useGetCustomerQuery } from "../redux/api/manageApi";
 import CustomerTable from "./CustomerTable";
 
 const Customer = () => {
-  const [selectedYear, setSelectedYear] = useState("");
+  const [status, setStatus] = useState("");
   const [searchTerm, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
-  const pageSize = 10;
-  const { data: customerData, isLoading } = useGetCustomerQuery({
-    status: selectedYear,
+  const {
+    data: customerData,
+    isLoading,
+    isFetching,
+  } = useGetCustomerQuery({
+    status,
     searchTerm: searchTerm,
     page: currentPage,
     limit: pageSize,
   });
 
   const customers = customerData?.data || [];
+  const meta = customerData?.meta || {};
 
-  const handleYearChange = (e) => {
-    setSelectedYear(e.target.value);
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value);
   };
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page, size) => {
     setCurrentPage(page);
+    setPageSize(size);
   };
 
   return (
@@ -47,10 +53,12 @@ const Customer = () => {
         <div className="flex justify-between items-center mb-4">
           <select
             className="rounded p-2 px-4 border border-[#C79A88] mr-11"
-            value={selectedYear}
-            onChange={handleYearChange}
+            value={status}
+            onChange={handleStatusChange}
           >
-            <option value="" disabled>Filter by status</option>
+            <option value="" disabled>
+              Filter by status
+            </option>
             <option value="">All</option>
             <option value="ACTIVE">Active</option>
             <option value="BLOCKED">Blocked</option>
@@ -58,17 +66,26 @@ const Customer = () => {
         </div>
 
         {/* Table */}
-        <CustomerTable customers={customers} isLoading={isLoading} />
+        <CustomerTable
+          customers={customers}
+          meta={meta}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
 
-        <div className="mt-4 flex justify-center">
-          <Pagination
-            current={currentPage}
-            pageSize={pageSize}
-            total={customerData?.meta?.total || 0}
-            onChange={handlePageChange}
-            showSizeChanger={false}
-          />
-        </div>
+        {meta?.totalPages > 1 && (
+          <div className="mt-4 flex justify-center">
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              total={meta?.total || 0}
+              onChange={handlePageChange}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

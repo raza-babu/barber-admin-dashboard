@@ -1,13 +1,27 @@
 import { Table, Switch, Tag } from "antd";
 import BlockSwitch from "../../components/switch/BlockSwitch";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
-const CustomerTable = ({ customers, isLoading }) => {
+const CustomerTable = ({
+  customers,
+  isLoading,
+  isFetching,
+  meta,
+  pageSize,
+  currentPage,
+  setCurrentPage
+}) => {
+  //handle pagination after deleting last document of last page
+  useEffect(() => {
+    if (currentPage > meta.totalPages) {
+      setCurrentPage(meta.totalPages);
+    }
+  }, [currentPage, meta, setCurrentPage]);
+
   const tableData = useMemo(() => {
-
     return customers?.map((item, index) => ({
       key: item.id || index,
-      id: index + 1,
+      id: Number(index + 1) + (meta?.page - 1) * pageSize,
       customerName: item.fullName,
       avatar:
         item.image ||
@@ -22,7 +36,7 @@ const CustomerTable = ({ customers, isLoading }) => {
 
   const columns = [
     {
-      title: "#",
+      title: "S.N.",
       dataIndex: "id",
       key: "id",
     },
@@ -56,18 +70,27 @@ const CustomerTable = ({ customers, isLoading }) => {
       dataIndex: "contact",
       key: "contact",
     },
+
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => (
-        <Tag
-          className="px-4 py-1 rounded-full"
-          color={status === "ACTIVE" ? "#C79A88" : "red"}
-        >
-          {status}
-        </Tag>
-      ),
+      render: (status) => {
+        const STATUS_COLORS = {
+          ACTIVE: "green",
+          BLOCKED: "red",
+          PENDING: "orange",
+        };
+
+        return (
+          <Tag
+            className="px-4 py-1 rounded-full"
+            color={STATUS_COLORS[status] || "default"}
+          >
+            {status}
+          </Tag>
+        );
+      },
     },
     {
       title: "Block / Unblock",
@@ -82,7 +105,7 @@ const CustomerTable = ({ customers, isLoading }) => {
         <Table
           columns={columns}
           dataSource={tableData}
-          loading={isLoading}
+          loading={isLoading || isFetching}
           pagination={false}
           rowClassName=" border-b border-gray-300"
           scroll={{ x: 800 }}
