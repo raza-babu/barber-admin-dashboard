@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { message } from "antd";
+import TagTypes from "../../../constant/tagType.constant";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://backend.barberstime.com/api/v1",
@@ -23,6 +24,6 @@ export const baseApi = createApi({
     }
     return result;
   },
-  tagTypes: ["overview", "host"],
+  tagTypes: Object.values(TagTypes),
   endpoints: () => ({}),
 });

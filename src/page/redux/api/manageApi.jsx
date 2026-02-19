@@ -1,3 +1,4 @@
+import TagTypes from "../../../constant/tagType.constant";
 import { baseApi } from "./baseApi";
 
 const businessApi = baseApi.injectEndpoints({
@@ -13,13 +14,25 @@ const businessApi = baseApi.injectEndpoints({
     }),
 
     getBarberOwner: builder.query({
-      query: ({ status, page, limit, searchTerm }) => {
+      query: (argsValues) => {
+        const params = new URLSearchParams();
+        const args = Object.keys(argsValues);
+
+        if (args !== undefined && args.length > 0) {
+          args.forEach((key) => {
+            if (argsValues[key]) {
+              params.append(key, argsValues[key]);
+            }
+          });
+        }
+
         return {
-          url: `/admin/saloons?status=${status}&searchTerm=${searchTerm}&page=${page}&limit=${limit}`,
+          url: `/admin/saloons`,
           method: "GET",
+          params,
         };
       },
-      providesTags: ["updateProfile"],
+      providesTags: [TagTypes.barberOwners],
     }),
 
     getRegisterBarberOwner: builder.query({
@@ -43,13 +56,25 @@ const businessApi = baseApi.injectEndpoints({
     }),
 
     getAllBarber: builder.query({
-      query: ({ page, limit, searchTerm }) => {
+      query: (argsValues) => {
+        const params = new URLSearchParams();
+        const args = Object.keys(argsValues);
+
+        if (args !== undefined && args.length > 0) {
+          args.forEach((key) => {
+            if (argsValues[key]) {
+              params.append(key, argsValues[key]);
+            }
+          });
+        }
+
         return {
-          url: `/admin/barbers?searchTerm=${searchTerm}&page=${page}&limit=${limit}`,
+          url: `/admin/barbers`,
           method: "GET",
+          params,
         };
       },
-      providesTags: ["updateProfile"],
+      providesTags: [TagTypes.barbers],
     }),
 
     getAllSubscriber: builder.query({
@@ -95,7 +120,6 @@ const businessApi = baseApi.injectEndpoints({
     getCustomer: builder.query({
       query: (argsValues) => {
         const params = new URLSearchParams();
-        console.log(argsValues);
         const args = Object.keys(argsValues);
 
         if (args !== undefined && args.length > 0) {
@@ -109,7 +133,7 @@ const businessApi = baseApi.injectEndpoints({
         return {
           url: `/admin/customers`,
           method: "GET",
-          params
+          params,
         };
       },
       providesTags: ["updateProfile"],
@@ -120,7 +144,7 @@ const businessApi = baseApi.injectEndpoints({
         return {
           url: `/admin/block-saloon/${id}`,
           method: "PATCH",
-          body: { status: data },
+          body: data,
         };
       },
       invalidatesTags: ["updateProfile"],
@@ -456,7 +480,6 @@ const businessApi = baseApi.injectEndpoints({
 export const {
   useGetBarberOwnerQuery,
   useGetRegisterBarberOwnerQuery,
-
   useGetSingleReplyQuery,
   useBlockOwnerMutation,
   useGetAllReportsQuery,
