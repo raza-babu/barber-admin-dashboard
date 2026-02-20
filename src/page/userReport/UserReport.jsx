@@ -4,11 +4,13 @@ import { Input, Pagination } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useGetAllReportsQuery } from "../redux/api/manageApi";
 import UserReportTable from "./UserReportTable";
+import useDebounce from "../../hooks/useDebounce";
 
 const UserReport = () => {
-  const [searchTerm, setSearch] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+   const [pageSize, setPageSize] = useState(10);
+  const { searchTerm } = useDebounce({ searchQuery, setCurrentPage });
   const { data, isLoading, isFetching } = useGetAllReportsQuery({
     searchTerm,
     page: currentPage,
@@ -33,7 +35,7 @@ const UserReport = () => {
           placeholder="Search"
           prefix={<SearchOutlined />}
           className="w-64 px-4 py-2 rounded-lg bg-white"
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
 

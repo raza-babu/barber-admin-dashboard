@@ -2,12 +2,18 @@ import { Table, Tag } from "antd";
 import { useMemo } from "react";
 import ReplyUserModal from "../../components/modal/ReplyUserModal";
 
-const UserReportTable = ({ reports, isLoading, isFetching, meta, pageSize }) => {
-
+const UserReportTable = ({
+  reports,
+  isLoading,
+  isFetching,
+  meta,
+  pageSize,
+}) => {
   const tableData = useMemo(() => {
-    return reports.map((item) => ({
+    return reports.map((item, index) => ({
       key: item.reportId,
       id: item.userId,
+      serial: Number(index + 1) + (meta?.page - 1) * pageSize,
       fullName: item.userName,
       contact: item.userPhoneNumber ? `${item.userPhoneNumber}` : "No contact",
       region: item.userAddress || "N/A",
@@ -17,12 +23,12 @@ const UserReportTable = ({ reports, isLoading, isFetching, meta, pageSize }) => 
     }));
   }, [reports]);
 
-  const handleEdit = (record) => {
-   // setSelectedUser(record);
-    //setOpenAddModal(true);
-  };
-
   const columns = [
+    {
+      title: "S.N.",
+      dataIndex: "serial",
+      key: "serial",
+    },
     {
       title: "Name",
       dataIndex: "fullName",
@@ -66,7 +72,7 @@ const UserReportTable = ({ reports, isLoading, isFetching, meta, pageSize }) => 
       dataIndex: "action",
       render: (_, record) => (
         <div className="flex gap-2">
-          <ReplyUserModal/>
+          <ReplyUserModal record={record} />
         </div>
       ),
     },
@@ -79,7 +85,7 @@ const UserReportTable = ({ reports, isLoading, isFetching, meta, pageSize }) => 
           <Table
             columns={columns}
             dataSource={tableData}
-            loading={isLoading}
+            loading={isLoading || isFetching}
             pagination={false}
             rowClassName="border-b border-gray-200"
             scroll={{ x: 900 }}

@@ -23,7 +23,6 @@ const ReplyUserModal = ({ record }) => {
     }
   }, [singleReply, form]);
 
-
   const handleSubmit = async (values) => {
     const id = record?.key;
     const data = {
@@ -44,7 +43,7 @@ const ReplyUserModal = ({ record }) => {
   return (
     <>
       <button
-        // onClick={() => handleEdit(record)}
+        onClick={() => setModalOpen(true)}
         className="bg-red-500 border px-4 py-1 rounded text-white"
       >
         Reply
