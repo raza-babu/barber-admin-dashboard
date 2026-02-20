@@ -4,26 +4,27 @@ import { MdOutlineStarPurple500 } from "react-icons/md";
 import { Link } from "react-router-dom";
 import OwnerBlockSwitch from "../../components/switch/OwnerBlockSwitch";
 
-const BarberOwnerTable = ({ barberOwners, isLoading, isFetching }) => {
+const BarberOwnerTable = ({ barberOwners, isLoading, isFetching, meta, pageSize }) => {
   const tableData = useMemo(() => {
     return barberOwners?.map((item, index) => ({
-      key: item.id || index,
-      id: index + 1,
+      key: index,
+      id: item.id,
+      serial: Number(index + 1) + (meta?.page - 1) * pageSize,
       shopName: item.shopName,
       avatar: item.shopLogo,
       city: item.shopAddress,
       rating: "5.0",
       contact: item.shopPhoneNumber || item.phoneNumber,
-      status: item.isVerified ? "ACTIVE" : "INACTIVE",
+      status: item.isVerified ? "ACTIVE" : "BLOCKED",
       isVerified: item.isVerified,
     }));
   }, [barberOwners]);
 
   const columns = [
     {
-      title: "#",
-      dataIndex: "id",
-      key: "id",
+      title: "S.N.",
+      dataIndex: "serial",
+      key: "serial",
     },
     {
       title: "Shop Name",

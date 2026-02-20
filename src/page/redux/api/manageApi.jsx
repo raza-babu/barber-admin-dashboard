@@ -147,7 +147,7 @@ const businessApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.barberOwners],
     }),
 
     updateSupport: builder.mutation({

@@ -51,7 +51,7 @@ const BarberOwner = () => {
             </option>
             <option value="">All</option>
             <option value="ACTIVE">Active</option>
-            <option value="BLOCKED">Inactive</option>
+            <option value="BLOCKED">Blocked</option>
           </select>
           <Input
             onChange={(e) => setSearchQuery(e.target.value)}

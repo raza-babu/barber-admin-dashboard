@@ -7,10 +7,10 @@ const OwnerBlockSwitch = ({ record }) => {
   const handleBlockToggle = async (record) => {
     try {
       const payload = {
-        status: record.status === "BLOCKED" ? false : true,
+        status: record.isVerified ? false : true,
       };
 
-      const res = await blockOwner({
+      await blockOwner({
         id: record.id,
         data: payload
       }).unwrap();
