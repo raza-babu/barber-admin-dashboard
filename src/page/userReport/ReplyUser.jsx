@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import {
   useGetSingleReplyQuery,
   useReplyUserMutation,
-} from "../redux/api/manageApi";
+} from "../../page/redux/api/manageApi";
 
 const ReplyUser = ({ openAddModal, setOpenAddModal, selectedUser }) => {
   const id = selectedUser?.key;

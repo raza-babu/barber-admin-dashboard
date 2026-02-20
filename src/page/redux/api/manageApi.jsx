@@ -98,13 +98,35 @@ const businessApi = baseApi.injectEndpoints({
     }),
 
     getAllReports: builder.query({
-      query: ({ page, limit, searchTerm }) => {
+      query: (argsValues) => {
+        const params = new URLSearchParams();
+        const args = Object.keys(argsValues);
+
+        if (args !== undefined && args.length > 0) {
+          args.forEach((key) => {
+            if (argsValues[key]) {
+              params.append(key, argsValues[key]);
+            }
+          });
+        }
+
         return {
-          url: `/support/reports?searchTerm=${searchTerm}&page=${page}&limit=${limit}`,
+          url: `/support/reports`,
           method: "GET",
+          params,
         };
       },
-      providesTags: ["updateProfile"],
+      providesTags: [TagTypes.reports],
+    }),
+    replyUser: builder.mutation({
+      query: ({ data, id }) => {
+        return {
+          url: `/support/replies/${id}`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+      invalidatesTags: [TagTypes.reports],
     }),
 
     getAllSupport: builder.query({
@@ -136,9 +158,18 @@ const businessApi = baseApi.injectEndpoints({
           params,
         };
       },
-      providesTags: ["updateProfile"],
+      providesTags: [TagTypes.customers],
     }),
-
+    blockCustomer: builder.mutation({
+      query: ({ data, id }) => {
+        return {
+          url: `/admin/block-customer/${id}`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+      invalidatesTags: [TagTypes.customers],
+    }),
     blockOwner: builder.mutation({
       query: ({ data, id }) => {
         return {
@@ -154,27 +185,6 @@ const businessApi = baseApi.injectEndpoints({
       query: ({ data, id }) => {
         return {
           url: `/support/${id}`,
-          method: "PATCH",
-          body: data,
-        };
-      },
-      invalidatesTags: ["updateProfile"],
-    }),
-
-    blockCustomer: builder.mutation({
-      query: ({ data, id }) => {
-        return {
-          url: `/admin/block-customer/${id}`,
-          method: "PATCH",
-          body: data,
-        };
-      },
-      invalidatesTags: ["updateProfile"],
-    }),
-    replyUser: builder.mutation({
-      query: ({ data, id }) => {
-        return {
-          url: `/support/replies/${id}`,
           method: "PATCH",
           body: data,
         };
