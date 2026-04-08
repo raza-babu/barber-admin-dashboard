@@ -99,12 +99,6 @@ const [deleteSubscription] = useDeleteSubscriptionMutation()
               {`(${subscriptionData?.data?.length || 0})`}
             </h1>
           </div>
-          <button
-            className="bg-[#D17C51] px-5 py-2 text-white rounded"
-            onClick={() => setOpenAddModal(true)}
-          >
-            + Subscription
-          </button>
         </div>
 
         <div className="p-2">
