@@ -33,10 +33,13 @@ const PremiumSubscriber = () => {
     email: item.email,
     phone: item.phoneNumber,
     joiningDate: new Date(item.startDate).toLocaleDateString(),
-    endDate: new Date(item.endDate).toLocaleDateString(),
+    subscriptionTitle: item.subscriptionTitle,
+    subscriptionEnd: new Date(item.subscriptionEnd).toLocaleDateString(),
+    subscriptionPrice: item.subscriptionPrice,
     interval: item.offer?.duration,
-    subscriptionPlan: item.subscriptionPlan,
+    shopName: item.shopName,
     fee: `$${item.offer?.price} ${item.offer?.currency?.toUpperCase()}`,
+    lastSubscriptionPaymentDate: item?.lastSubscriptionPaymentDate ? new Date(item.lastSubscriptionPaymentDate).toLocaleDateString() : "N/A",
     status: item.paymentStatus === "COMPLETED" ? "Paid" : "Due",
   }));
 
@@ -61,31 +64,49 @@ const PremiumSubscriber = () => {
       dataIndex: "phone",
       key: "phone",
     },
+    // {
+    //   title: "Joining Date",
+    //   dataIndex: "joiningDate",
+    //   key: "joiningDate",
+    // },
     {
-      title: "Joining Date",
-      dataIndex: "joiningDate",
-      key: "joiningDate",
+      title: "Shop Name",
+      dataIndex: "shopName",
+      key: "shopName",
     },
     {
-      title: "End Date",
-      dataIndex: "endDate",
-      key: "endDate",
+      title: "Subscription Title",
+      dataIndex: "subscriptionTitle",
+      key: "subscriptionTitle",
     },
     {
-      title: "Plan",
-      dataIndex: "subscriptionPlan",
-      key: "subscriptionPlan",
+      title: "Subscription End",
+      dataIndex: "subscriptionEnd",
+      key: "subscriptionEnd",
+    },
+    // {
+    //   title: "Plan",
+    //   dataIndex: "subscriptionPlan",
+    //   key: "subscriptionPlan",
+    // },
+    // {
+    //   title: "Interval",
+    //   dataIndex: "interval",
+    //   key: "interval",
+    //   render: (interval) => <span className="text-[#D17C51]">{interval}</span>,
+    // },
+    {
+      title: "Subscription Price",
+      dataIndex: "subscriptionPrice",
+      key: "subscriptionPrice",
+      render: (price) => (
+        <span>£{price}</span>
+      )
     },
     {
-      title: "Interval",
-      dataIndex: "interval",
-      key: "interval",
-      render: (interval) => <span className="text-[#D17C51]">{interval}</span>,
-    },
-    {
-      title: "Subscription Fee",
-      dataIndex: "fee",
-      key: "fee",
+      title: "Last Payment",
+      dataIndex: "lastSubscriptionPaymentDate",
+      key: "lastSubscriptionPaymentDate",
     },
     {
       title: "Status",
