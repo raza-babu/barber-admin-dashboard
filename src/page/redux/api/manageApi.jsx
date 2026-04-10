@@ -440,7 +440,7 @@ const businessApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: ["updateProfile"],
+      providesTags: [TagTypes.administrators],
     }),
 
     getAllAccessFunctions: builder.query({
@@ -461,7 +461,7 @@ const businessApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.administrators],
     }),
 
     deleteAdminAccess: builder.mutation({
@@ -471,7 +471,7 @@ const businessApi = baseApi.injectEndpoints({
           method: "DELETE",
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.administrators],
     }),
 
     updateAccessFunction: builder.mutation({
@@ -482,7 +482,7 @@ const businessApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.administrators],
     }),
   }),
 });

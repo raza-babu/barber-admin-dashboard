@@ -5,6 +5,7 @@ import {
   useAddAdminProvideMutation,
   useGetAllAccessFunctionsQuery,
 } from "../redux/api/manageApi";
+import { CgSpinner } from "react-icons/cg";
 
 // eslint-disable-next-line react/prop-types
 const AddAdministrator = ({ openAddModal, setOpenAddModal }) => {
@@ -15,7 +16,7 @@ const AddAdministrator = ({ openAddModal, setOpenAddModal }) => {
   const [role, setRole] = useState(null); // Selected role
 
   const { data: accessCheckFunctionData } = useGetAllAccessFunctionsQuery();
-  const [AddAdminProvide] = useAddAdminProvideMutation();
+  const [AddAdminProvide, { isLoading }] = useAddAdminProvideMutation();
 
   // Original access options from API
   const accessOptions =
@@ -25,9 +26,10 @@ const AddAdministrator = ({ openAddModal, setOpenAddModal }) => {
     })) || [];
 
   // Filtered access options based on role
-  const filteredAccessOptions = role === "ADMIN"
-    ? accessOptions.filter((option) => option.label !== "ADMIN_MANAGEMENT")
-    : accessOptions;
+  const filteredAccessOptions =
+    role === "ADMIN"
+      ? accessOptions.filter((option) => option.label !== "ADMIN_MANAGEMENT")
+      : accessOptions;
 
   // Modal Cancel
   const handleCancel = () => {
@@ -86,7 +88,9 @@ const AddAdministrator = ({ openAddModal, setOpenAddModal }) => {
   const handleCheckboxGroupChange = (list) => {
     if (role === "ADMIN") {
       // Find the "ALL" value from filteredAccessOptions
-      const allOption = filteredAccessOptions.find((o) => o.label === "ALL")?.value;
+      const allOption = filteredAccessOptions.find(
+        (o) => o.label === "ALL",
+      )?.value;
 
       // If the "ALL" checkbox is selected
       if (allOption && list.includes(allOption)) {
@@ -121,7 +125,7 @@ const AddAdministrator = ({ openAddModal, setOpenAddModal }) => {
           className="px-2"
         >
           {/* Profile Picture */}
-          <div className="relative w-[120px] h-[120px] mx-auto mb-6">
+          <div className="relative w-30 h-30 mx-auto mb-6">
             <input
               type="file"
               accept="image/*"
@@ -135,7 +139,7 @@ const AddAdministrator = ({ openAddModal, setOpenAddModal }) => {
                 "https://cdn-icons-png.flaticon.com/512/149/149071.png"
               }
               alt="Profile"
-              className="w-[120px] h-[120px] rounded-full object-cover border"
+              className="w-30 h-30 rounded-full object-cover border"
             />
             <label
               htmlFor="imgUpload"
@@ -204,9 +208,16 @@ const AddAdministrator = ({ openAddModal, setOpenAddModal }) => {
           {/* Buttons */}
           <button
             type="submit"
-            className="w-full py-2 mt-4 bg-[#D17C51] text-white rounded-md"
+            className="w-full flex justify-center items-center gap-2 py-2 mt-2 bg-[#D17C51] text-white rounded-md cursor-pointer"
           >
-            Save
+            {isLoading ? (
+              <>
+                <CgSpinner size={18} className="animate-spin" />
+                Processing...
+              </>
+            ) : (
+              "Save"
+            )}
           </button>
         </Form>
       </div>

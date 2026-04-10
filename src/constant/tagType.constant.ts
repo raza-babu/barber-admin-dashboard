@@ -2,7 +2,8 @@ const TagTypes = {
     barbers: "Barbers",
     barberOwners: "BarberOwners",
     customers: "Customers",
-    reports: "Reports"
+    reports: "Reports",
+    administrators: "Administrators"
 }
 
 export default TagTypes;

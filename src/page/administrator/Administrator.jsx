@@ -18,6 +18,7 @@ import {
   useDeleteAdminAccessMutation,
   useGetAllAdminAccessQuery,
 } from "../redux/api/manageApi";
+import useDebounce from "../../hooks/useDebounce";
 
 const { Option } = Select;
 
@@ -25,10 +26,15 @@ const Administrator = () => {
   const [openAddModal, setOpenAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [deleteUser] = useDeleteAdminAccessMutation();
-  const [searchTerm, setSearch] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
-  const { data: adminData, isLoading } = useGetAllAdminAccessQuery({
+  const { searchTerm } = useDebounce({ searchQuery, setCurrentPage });
+  const {
+    data: adminData,
+    isLoading,
+    isFetching,
+  } = useGetAllAdminAccessQuery({
     searchTerm,
     page: currentPage,
     limit: pageSize,
@@ -38,6 +44,8 @@ const Administrator = () => {
     setSelectedUser(record);
     setEditModal(true);
   };
+
+  const meta = adminData?.meta || {};
 
   const handleDeleteFaq = async (id) => {
     try {
@@ -53,6 +61,9 @@ const Administrator = () => {
       title: "SL no.",
       dataIndex: "sl",
       key: "sl",
+      render: (_, __, index) => {
+        return Number(index + 1) + (meta?.page - 1) * pageSize;
+      },
     },
     {
       title: "Name",
@@ -137,45 +148,54 @@ const Administrator = () => {
   return (
     <div className="bg-white p-3 h-[87vh]">
       {/* Header with search */}
-      <div className="md:flex justify-between mb-4">
-        <Navigate title={"Administrator"} />
-        <Input
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search"
-          prefix={<SearchOutlined />}
-          className="w-64 px-4 py-2 rounded-lg bg-white"
-        />
-      </div>
+      <div className="flex justify-between items-center mb-4">
+        <div>
+          <Navigate title={"Administrator"} />
+        </div>
 
-      {/* Add Admin Button */}
-      <button
-        className="bg-[#D17C51] px-5 py-2 text-white rounded mb-4"
-        onClick={() => setOpenAddModal(true)}
-      >
-        + Add Administrator
-      </button>
+        <div className="flex gap-2">
+          <div>
+            <Input
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search"
+              prefix={<SearchOutlined />}
+              className="w-64 h-10 px-4 py-2 rounded-lg bg-white"
+              style={{ paddingTop: "2px" }}
+            />
+          </div>
+          {/* Add Admin Button */}
+          <button
+            className="bg-[#D17C51] w-60 py-2 px-5 text-white rounded mb-4 cursor-pointer"
+            onClick={() => setOpenAddModal(true)}
+          >
+            + Add Administrator
+          </button>
+        </div>
+      </div>
 
       {/* Table */}
       <div className="rounded-md overflow-hidden">
         <Table
           columns={columns}
           dataSource={data}
-          loading={isLoading}
+          loading={isLoading || isFetching}
           pagination={false}
           rowClassName="border-b border-gray-200"
           scroll={{ x: 500 }}
         />
       </div>
 
-      <div className="mt-4 flex justify-center">
-        <Pagination
-          current={currentPage}
-          pageSize={pageSize}
-          total={adminData?.meta?.total || 0}
-          onChange={handlePageChange}
-          showSizeChanger={false}
-        />
-      </div>
+      {meta?.totalPages > 1 && (
+        <div className="mt-4 flex justify-center">
+          <Pagination
+            current={currentPage}
+            pageSize={pageSize}
+            total={adminData?.meta?.total || 0}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+          />
+        </div>
+      )}
 
       {/* Modals */}
       <AddAdministrator

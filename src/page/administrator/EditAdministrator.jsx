@@ -6,6 +6,7 @@ import {
   useUpdateAccessFunctionMutation,
 } from "../redux/api/manageApi";
 import { useMemo } from "react";
+import { CgSpinner } from "react-icons/cg";
 
 const EditAdministrator = ({ editModal, setEditModal, selectedUser }) => {
   const adminId = selectedUser?.key;
@@ -15,19 +16,23 @@ const EditAdministrator = ({ editModal, setEditModal, selectedUser }) => {
   const [role, setRole] = useState(null);
 
   const { data: accessCheckFunctionData } = useGetAllAccessFunctionsQuery();
-  const [updateAccessFunction] = useUpdateAccessFunctionMutation();
+  const [updateAccessFunction, { isLoading }] =
+    useUpdateAccessFunctionMutation();
 
   const accessOptions = useMemo(() => {
-    return accessCheckFunctionData?.data?.map((item) => ({
-      label: item.function,
-      value: item.id,
-    })) || [];
+    return (
+      accessCheckFunctionData?.data?.map((item) => ({
+        label: item.function,
+        value: item.id,
+      })) || []
+    );
   }, [accessCheckFunctionData]);
 
   // Filtered access options based on role
-  const filteredAccessOptions = role === "ADMIN"
-    ? accessOptions.filter((option) => option.label !== "ADMIN_MANAGEMENT")
-    : accessOptions;
+  const filteredAccessOptions =
+    role === "ADMIN"
+      ? accessOptions.filter((option) => option.label !== "ADMIN_MANAGEMENT")
+      : accessOptions;
 
   useEffect(() => {
     if (selectedUser && accessOptions.length > 0) {
@@ -81,19 +86,16 @@ const EditAdministrator = ({ editModal, setEditModal, selectedUser }) => {
 
   const handleCheckboxGroupChange = (list) => {
     if (role === "ADMIN") {
-
-      const allOption = filteredAccessOptions.find((o) => o.label === "ALL")?.value;
-
+      const allOption = filteredAccessOptions.find(
+        (o) => o.label === "ALL",
+      )?.value;
 
       if (allOption && list.includes(allOption)) {
-
         setCheckedList(filteredAccessOptions.map((o) => o.value));
       } else {
-
         setCheckedList(list);
       }
     } else {
-
       setCheckedList(list);
     }
   };
@@ -117,14 +119,14 @@ const EditAdministrator = ({ editModal, setEditModal, selectedUser }) => {
           className="px-2"
         >
           {/* Profile Picture */}
-          <div className="w-[120px] h-[120px] mx-auto mb-6">
+          <div className="w-30 h-30 mx-auto mb-6">
             <img
               src={
                 imagePreview ||
                 "https://cdn-icons-png.flaticon.com/512/149/149071.png"
               }
               alt="Profile"
-              className="w-[120px] h-[120px] rounded-full object-cover border"
+              className="w-30 h-30 rounded-full object-cover border"
             />
           </div>
 
@@ -155,7 +157,7 @@ const EditAdministrator = ({ editModal, setEditModal, selectedUser }) => {
           </label>
           <div className="grid grid-cols-2 mt-2">
             <Checkbox.Group
-              options={filteredAccessOptions} 
+              options={filteredAccessOptions}
               value={checkedList}
               onChange={handleCheckboxGroupChange}
               disabled={role === "SUPER_ADMIN"}
@@ -164,9 +166,16 @@ const EditAdministrator = ({ editModal, setEditModal, selectedUser }) => {
 
           <button
             type="submit"
-            className="w-full py-2 mt-2 bg-[#D17C51] text-white rounded-md"
+            className="w-full flex justify-center items-center gap-2 py-2 mt-2 bg-[#D17C51] text-white rounded-md cursor-pointer"
           >
-            Save
+            {isLoading ? (
+              <>
+                <CgSpinner size={18} className="animate-spin" />
+                Processing...
+              </>
+            ) : (
+              "Save"
+            )}
           </button>
         </Form>
       </div>
