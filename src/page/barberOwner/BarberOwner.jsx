@@ -34,33 +34,34 @@ const BarberOwner = () => {
 
   return (
     <div className="p-1">
-      <div className="flex ">
+      <div className="flex justify-between">
         <Navigate title={"Barber Owner"} />
+        <div className="flex justify-end items-center mb-4">
+          <div className="flex gap-4">
+            <select
+              className="rounded p-2 px-4 border border-[#C79A88]"
+              value={status}
+              onChange={handleStatusChange}
+            >
+              <option value="" disabled>
+                Filter by status
+              </option>
+              <option value="">All</option>
+              <option value="ACTIVE">Active</option>
+              <option value="BLOCKED">Blocked</option>
+            </select>
+            <Input
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search"
+              prefix={<SearchOutlined />}
+              className="w-44 px-4 py-4 rounded-lg bg-white"
+            />
+          </div>
+        </div>
       </div>
 
       {/* Filter and Search */}
       <div className="p-2">
-        <div className="flex justify-between items-center mb-4">
-          <select
-            className="rounded p-2 px-4 border border-[#C79A88] mr-11"
-            value={status}
-            onChange={handleStatusChange}
-          >
-            <option value="" disabled>
-              Filter by status
-            </option>
-            <option value="">All</option>
-            <option value="ACTIVE">Active</option>
-            <option value="BLOCKED">Blocked</option>
-          </select>
-          <Input
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search"
-            prefix={<SearchOutlined />}
-            className="w-64 px-4 py-2 rounded-lg bg-white"
-          />
-        </div>
-
         <BarberOwnerTable
           barberOwners={barberOwners}
           meta={meta}

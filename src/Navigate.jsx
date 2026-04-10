@@ -20,7 +20,7 @@ export const Navigate = ({title}) => {
             <button className="text-[#EF4849]">
               <FaArrowLeft />
             </button>
-            <span className="text-lg font-semibold">{title}</span>
+            <span className="text-lg font-semibold text-nowrap">{title}</span>
           </h1>
           
         </div>

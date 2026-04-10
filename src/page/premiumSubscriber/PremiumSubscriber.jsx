@@ -3,13 +3,19 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Navigate } from "../../Navigate";
 import { useGetAllSubscriberQuery } from "../redux/api/manageApi";
 import { useState } from "react";
+import useDebounce from "../../hooks/useDebounce";
 
 const PremiumSubscriber = () => {
-  const [searchTerm, setSearch] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
   const pageSize = 10;
-  const { data: subscriber, isLoading } = useGetAllSubscriberQuery({
+  const { searchTerm } = useDebounce({ searchQuery, setCurrentPage }); //debounce handled
+  const {
+    data: subscriber,
+    isLoading,
+    isFetching,
+  } = useGetAllSubscriberQuery({
     searchTerm: searchTerm,
     page: currentPage,
     limit: pageSize,
@@ -18,17 +24,18 @@ const PremiumSubscriber = () => {
     setCurrentPage(page);
   };
 
+  const meta = subscriber?.meta || {};
   // Transform API data into table-friendly format
   const tableData = subscriber?.data?.map((item, index) => ({
     key: item.id,
-    sl: index + 1,
+    sl: Number(index + 1) + (meta?.page - 1) * pageSize,
     name: item.fullName,
     email: item.email,
     phone: item.phoneNumber,
     joiningDate: new Date(item.startDate).toLocaleDateString(),
     endDate: new Date(item.endDate).toLocaleDateString(),
     interval: item.offer?.duration,
-    plan: item.offer?.title,
+    subscriptionPlan: item.subscriptionPlan,
     fee: `$${item.offer?.price} ${item.offer?.currency?.toUpperCase()}`,
     status: item.paymentStatus === "COMPLETED" ? "Paid" : "Due",
   }));
@@ -66,8 +73,8 @@ const PremiumSubscriber = () => {
     },
     {
       title: "Plan",
-      dataIndex: "plan",
-      key: "plan",
+      dataIndex: "subscriptionPlan",
+      key: "subscriptionPlan",
     },
     {
       title: "Interval",
@@ -100,20 +107,22 @@ const PremiumSubscriber = () => {
 
   return (
     <div className="p-1">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between">
         <Navigate title={"Premium Subscribers"} />
-        <Input
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search"
-          prefix={<SearchOutlined />}
-          className="w-64 px-4 py-2 rounded-lg bg-white"
-        />
+        <div>
+          <Input
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search"
+            prefix={<SearchOutlined />}
+            className="w-64 px-4 py-1 rounded-lg bg-white"
+          />
+        </div>
       </div>
 
       <div className="p-2">
         <div className="rounded-md overflow-hidden">
           <Table
-            loading={isLoading}
+            loading={isLoading || isFetching}
             columns={columns}
             dataSource={tableData}
             pagination={false}
@@ -122,15 +131,17 @@ const PremiumSubscriber = () => {
           />
         </div>
       </div>
-      <div className="mt-4 flex justify-center">
-        <Pagination
-          current={currentPage}
-          pageSize={pageSize}
-          total={subscriber?.meta?.total || 0}
-          onChange={handlePageChange}
-          showSizeChanger={false}
-        />
-      </div>
+      {meta?.totalPages > 1 && (
+        <div className="mt-4 flex justify-center">
+          <Pagination
+            current={currentPage}
+            pageSize={pageSize}
+            total={subscriber?.meta?.total || 0}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+          />
+        </div>
+      )}
     </div>
   );
 };

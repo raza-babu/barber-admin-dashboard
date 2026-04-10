@@ -11,7 +11,7 @@ const Customer = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const { searchTerm } = useDebounce({ searchQuery, setCurrentPage })
+  const { searchTerm } = useDebounce({ searchQuery, setCurrentPage });
 
   const {
     data: customerData,
@@ -42,31 +42,32 @@ const Customer = () => {
         <div className="flex ">
           <Navigate title={"Customers"} />
         </div>
-        <Input
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search"
-          prefix={<SearchOutlined />}
-          className="w-64 px-4 py-2 rounded-lg bg-white"
-        />
+        <div className="flex justify-end items-center mb-4">
+          <div className="flex gap-4">
+            <select
+              className="rounded p-2 px-4 border border-[#C79A88]"
+              value={status}
+              onChange={handleStatusChange}
+            >
+              <option value="" disabled>
+                Filter by status
+              </option>
+              <option value="">All</option>
+              <option value="ACTIVE">Active</option>
+              <option value="BLOCKED">Blocked</option>
+            </select>
+            <Input
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search"
+              prefix={<SearchOutlined />}
+              className="w-64 px-4 py-2 rounded-lg bg-white"
+            />
+          </div>
+        </div>
       </div>
 
       {/* Filter and Search */}
       <div className=" p-2">
-        <div className="flex justify-between items-center mb-4">
-          <select
-            className="rounded p-2 px-4 border border-[#C79A88] mr-11"
-            value={status}
-            onChange={handleStatusChange}
-          >
-            <option value="" disabled>
-              Filter by status
-            </option>
-            <option value="">All</option>
-            <option value="ACTIVE">Active</option>
-            <option value="BLOCKED">Blocked</option>
-          </select>
-        </div>
-
         {/* Table */}
         <CustomerTable
           customers={customers}

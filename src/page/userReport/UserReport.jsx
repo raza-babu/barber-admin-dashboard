@@ -9,7 +9,7 @@ import useDebounce from "../../hooks/useDebounce";
 const UserReport = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-   const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(10);
   const { searchTerm } = useDebounce({ searchQuery, setCurrentPage });
   const { data, isLoading, isFetching } = useGetAllReportsQuery({
     searchTerm,
@@ -24,19 +24,21 @@ const UserReport = () => {
 
   return (
     <div className="bg-white p-3 h-[87vh]">
-      <div className="md:flex justify-between">
+      <div className="flex justify-between">
         <div className="flex">
           <Navigate title={"User Report"} />
-          <h1 className="pl-2 font-semibold text-xl">
+          <h1 className="font-semibold text-xl">
             {`(${meta?.total || 0})`}
           </h1>
         </div>
-        <Input
-          placeholder="Search"
-          prefix={<SearchOutlined />}
-          className="w-64 px-4 py-2 rounded-lg bg-white"
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+        <div>
+          <Input
+            placeholder="Search"
+            prefix={<SearchOutlined />}
+            className="w-44 px-4 py-4 rounded-lg bg-white"
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
       </div>
 
       <UserReportTable
