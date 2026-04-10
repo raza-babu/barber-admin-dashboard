@@ -5,7 +5,6 @@ import Dashboard from "../components/Dashboard/Dashboard";
 
 
 import Subscription from "../page/Subscription/Subscription";
-
 import Profile from "../page/Settings/Profile";
 import TermsCondition from "../page/Settings/TermsCondition";
 import FAQ from "../page/Settings/FAQ";

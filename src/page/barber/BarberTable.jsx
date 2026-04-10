@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Table } from "antd";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
@@ -64,7 +65,7 @@ const BarberTable = ({
       title: "Salary/hour",
       dataIndex: "hourlyRate",
       key: "sales",
-      render: (val) => <>£{val}</>,
+      render: (val) => <>{val ? `£${val}` : "N/A"}</>,
     },
   ];
 

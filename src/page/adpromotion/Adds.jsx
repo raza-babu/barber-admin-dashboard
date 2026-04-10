@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Table, Space, message, Modal } from "antd";
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -12,10 +12,8 @@ import EditPromotionModal from "./EditPromotionModal";
 const Adds = () => {
   const [editModal, setEditModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-
   const [viewModal, setViewModal] = useState(false); // 👁 View modal state
   const [viewRecord, setViewRecord] = useState(null);
-
   const [deleteAddPromotion] = useDeleteAddPromotionMutation();
   const { data: addPromotionData, isLoading } = useGetAddPromotionQuery();
 

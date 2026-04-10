@@ -3,14 +3,17 @@ import { Navigate } from "../../Navigate";
 import { useState, useMemo } from "react";
 import { AddSubscriptionModal } from "./AddSubscriptionModal";
 import { EditSubscriptionModal } from "./EditSubscriptionModal";
-import { useDeleteSubscriptionMutation, useGetSubscriptionQuery } from "../redux/api/manageApi";
+import {
+  useDeleteSubscriptionMutation,
+  useGetSubscriptionQuery,
+} from "../redux/api/manageApi";
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 const Subscription = () => {
   const [openAddModal, setOpenAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-const [deleteSubscription] = useDeleteSubscriptionMutation()
+  const [deleteSubscription] = useDeleteSubscriptionMutation();
   // API Call
   const { data: subscriptionData, isLoading } = useGetSubscriptionQuery();
   const [selectedUser, setSelectedUser] = useState(null);
@@ -18,6 +21,7 @@ const [deleteSubscription] = useDeleteSubscriptionMutation()
     setSelectedUser(record);
     setEditModal(true);
   };
+
   // map api data for table
   const tableData = useMemo(() => {
     if (!subscriptionData?.data) return [];

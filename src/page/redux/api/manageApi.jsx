@@ -218,7 +218,7 @@ const businessApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: ["updateProfile"],
+      providesTags: [TagTypes.subscriptions],
     }),
 
     addSubscription: builder.mutation({
@@ -229,7 +229,7 @@ const businessApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.subscriptions],
     }),
 
     updateSubscription: builder.mutation({
@@ -240,7 +240,7 @@ const businessApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.subscriptions],
     }),
 
     deleteSubscription: builder.mutation({
@@ -250,7 +250,7 @@ const businessApi = baseApi.injectEndpoints({
           method: "DELETE",
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.subscriptions],
     }),
 
     getAddPromotion: builder.query({
@@ -260,7 +260,7 @@ const businessApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: ["updateProfile"],
+      providesTags: [TagTypes.promotions],
     }),
 
     addAddpromotion: builder.mutation({
@@ -271,7 +271,7 @@ const businessApi = baseApi.injectEndpoints({
           body: formData,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.promotions],
     }),
 
     updateAddPromotion: builder.mutation({
@@ -282,7 +282,7 @@ const businessApi = baseApi.injectEndpoints({
           body: formData,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.promotions],
     }),
 
     deleteAddPromotion: builder.mutation({
@@ -292,7 +292,7 @@ const businessApi = baseApi.injectEndpoints({
           method: "DELETE",
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.promotions],
     }),
 
     getFaq: builder.query({
@@ -302,7 +302,7 @@ const businessApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: ["updateProfile"],
+      providesTags: [TagTypes.faqs],
     }),
 
     AddFaq: builder.mutation({
@@ -313,7 +313,7 @@ const businessApi = baseApi.injectEndpoints({
           body: formData,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.faqs],
     }),
 
     updateFaq: builder.mutation({
@@ -324,7 +324,7 @@ const businessApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.faqs],
     }),
 
     deleteFaq: builder.mutation({
@@ -334,7 +334,7 @@ const businessApi = baseApi.injectEndpoints({
           method: "DELETE",
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.faqs],
     }),
 
     getProfile: builder.query({
@@ -344,7 +344,7 @@ const businessApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: ["updateProfile"],
+      providesTags: [TagTypes.profile],
     }),
 
     updateProfileData: builder.mutation({
@@ -355,7 +355,7 @@ const businessApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.profile],
     }),
 
     updateProfileImage: builder.mutation({
@@ -366,7 +366,7 @@ const businessApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.profile],
     }),
 
     getPrivecy: builder.query({
@@ -376,7 +376,7 @@ const businessApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: ["updateProfile"],
+      providesTags: [TagTypes.privacy],
     }),
 
     AddPrivecy: builder.mutation({
@@ -387,7 +387,7 @@ const businessApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.privacy],
     }),
 
     updatePrivecy: builder.mutation({
@@ -398,7 +398,7 @@ const businessApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.privacy],
     }),
 
     updateTerms: builder.mutation({

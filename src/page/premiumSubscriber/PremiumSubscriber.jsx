@@ -39,8 +39,11 @@ const PremiumSubscriber = () => {
     interval: item.offer?.duration,
     shopName: item.shopName,
     fee: `$${item.offer?.price} ${item.offer?.currency?.toUpperCase()}`,
-    lastSubscriptionPaymentDate: item?.lastSubscriptionPaymentDate ? new Date(item.lastSubscriptionPaymentDate).toLocaleDateString() : "N/A",
+    lastSubscriptionPaymentDate: item?.lastSubscriptionPaymentDate
+      ? new Date(item.lastSubscriptionPaymentDate).toLocaleDateString()
+      : "N/A",
     status: item.paymentStatus === "COMPLETED" ? "Paid" : "Due",
+    expired: item.expired ? "Yes" : "No",
   }));
 
   const columns = [
@@ -99,9 +102,7 @@ const PremiumSubscriber = () => {
       title: "Subscription Price",
       dataIndex: "subscriptionPrice",
       key: "subscriptionPrice",
-      render: (price) => (
-        <span>£{price}</span>
-      )
+      render: (price) => <span>£{price}</span>,
     },
     {
       title: "Last Payment",
@@ -109,15 +110,15 @@ const PremiumSubscriber = () => {
       key: "lastSubscriptionPaymentDate",
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
+      title: "Expired",
+      dataIndex: "expired",
+      key: "expired",
       render: (status) => (
         <span
           className={`border px-4 py-1 rounded-full text-sm ${
-            status === "Paid"
-              ? "border-green-500 text-green-600"
-              : "border-orange-500 text-orange-500"
+            status === "Yes"
+              ? "border-red-500 text-red-500"
+              : "border-green-500 text-green-600"
           }`}
         >
           {status}

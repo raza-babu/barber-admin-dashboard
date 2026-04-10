@@ -12,7 +12,6 @@ export const Barber = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const { searchTerm } = useDebounce({ searchQuery, setCurrentPage });
-
   const { data, isLoading, isFetching } = useGetAllBarberQuery({
     status,
     searchTerm: searchTerm,
@@ -22,6 +21,7 @@ export const Barber = () => {
 
   const barbers = data?.data || [];
   const meta = data?.meta || {};
+  
 
   const handlePageChange = (page, size) => {
     setCurrentPage(page);
@@ -37,21 +37,12 @@ export const Barber = () => {
             {`(${meta?.total || 0})`}
           </h1>
         </div>
-        <Input
-          placeholder="Search"
-          prefix={<SearchOutlined />}
-          className="w-64 px-4 py-2 rounded-lg bg-white"
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </div>
 
-      {/* Filter */}
-      <div className="p-2">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex gap-2">
           <select
-            className="rounded p-2 px-4 border border-[#C79A88] mr-11"
+            className="rounded p-2 px-4 border border-[#C79A88]"
             value={status}
-            onChange={(e)=> setStatus(e.target.value)}
+            onChange={(e) => setStatus(e.target.value)}
           >
             <option value="" disabled>
               Filter by status
@@ -61,8 +52,17 @@ export const Barber = () => {
             <option value="INACTIVE">Inactive</option>
             <option value="BLOCKED">Blocked</option>
           </select>
+          <Input
+            placeholder="Search"
+            prefix={<SearchOutlined />}
+            className="w-64 px-4 py-2 rounded-lg bg-white"
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
+      </div>
 
+      {/* Filter */}
+      <div className="p-2">
         {/* Table */}
         <BarberTable
           barbers={barbers}
@@ -74,15 +74,17 @@ export const Barber = () => {
           setCurrentPage={setCurrentPage}
         />
 
-        <div className="mt-4 flex justify-center">
-          <Pagination
-            current={currentPage}
-            pageSize={pageSize}
-            total={meta?.total || 0}
-            onChange={handlePageChange}
-            showSizeChanger={false}
-          />
-        </div>
+        {meta?.totalPages > 1 && (
+          <div className="mt-4 flex justify-center">
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              total={meta?.total || 0}
+              onChange={handlePageChange}
+              showSizeChanger={false}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
