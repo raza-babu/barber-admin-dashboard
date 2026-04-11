@@ -161,6 +161,27 @@ const businessApi = baseApi.injectEndpoints({
       },
       providesTags: [TagTypes.customers],
     }),
+    getNotifications: builder.query({
+      query: (argsValues) => {
+        const params = new URLSearchParams();
+        const args = Object.keys(argsValues);
+
+        if (args !== undefined && args.length > 0) {
+          args.forEach((key) => {
+            if (argsValues[key]) {
+              params.append(key, argsValues[key]);
+            }
+          });
+        }
+
+        return {
+          url: `/notifications`,
+          method: "GET",
+          params,
+        };
+      },
+      providesTags: [TagTypes.notifications],
+    }),
     blockCustomer: builder.mutation({
       query: ({ data, id }) => {
         return {
@@ -531,4 +552,5 @@ export const {
   useGetAllSubscriberQuery,
   useGetDasboardQuery,
   useDeleteSubscriptionMutation,
+  useGetNotificationsQuery
 } = businessApi;
