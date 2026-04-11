@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Table, Tag } from "antd";
 import { useMemo } from "react";
 import { MdOutlineStarPurple500 } from "react-icons/md";
@@ -37,7 +38,7 @@ const BarberOwnerTable = ({ barberOwners, isLoading, isFetching, meta, pageSize 
             alt="avatar"
             className="w-8 h-8 rounded-full object-cover"
           />
-          <Link to={`/dashboard/barberOwner/barberDetails/${record.key}`}>
+          <Link to={`/dashboard/barberOwner/barberDetails/${record.id}`}>
             <span>{text}</span>
           </Link>
         </div>

@@ -22,6 +22,11 @@ export const baseApi = createApi({
       message.error("Session Expired");
       window.location.href = "/login";
     }
+    // if (result?.error?.status === 403) {
+    //   localStorage.clear();
+    //   message.error("Session Expired");
+    //   window.location.href = "/login";
+    // }
     return result;
   },
   tagTypes: Object.values(TagTypes),

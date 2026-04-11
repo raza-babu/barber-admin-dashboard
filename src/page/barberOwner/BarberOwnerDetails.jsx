@@ -7,11 +7,37 @@ import { BarberTiming } from "./BarberTiming";
 import { ShopPhoto } from "./ShopPhoto";
 import { useParams } from "react-router-dom";
 import { useGetSingleBarberOwnerQuery } from "../redux/api/manageApi";
+import { CgSpinner } from "react-icons/cg";
 
 export const BarberOwnerDetails = () => {
   const [selectedTab, setSelectedTab] = useState("personal");
   const { id } = useParams();
-  const {data : singleBarber} = useGetSingleBarberOwnerQuery({ id }, { refetchOnMountOrArgChange: true })
+  const { data: singleBarber, isLoading, isError} = useGetSingleBarberOwnerQuery(id);
+
+  if (isLoading) {
+    return (
+      <>
+        <div className="bg-white p-3 h-[87vh]">
+          <div>
+            <Navigate title={"Clients > Barber Time"}></Navigate>
+          </div>
+          <div className="flex gap-2 items-center">
+            <CgSpinner className="animate-spin text-blue-600" size={24}/>
+            <h1>Fetching...</h1>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  if(!isLoading && isError){
+    return <h1>Something Went Wrong</h1>
+  }
+
+  if(!isLoading && !isError && !singleBarber?.data){
+    return <h1>Barber owner not found</h1>
+  }
+
   return (
     <div className="bg-white p-3 h-[87vh]">
       <div>
@@ -19,7 +45,7 @@ export const BarberOwnerDetails = () => {
       </div>
       <div className="">
         <div className="flex justify-end">
-        <Switch defaultChecked={true} />
+          <Switch defaultChecked={true} />
         </div>
         <div className="flex border-b">
           <div
@@ -73,16 +99,31 @@ export const BarberOwnerDetails = () => {
             </div>
           </div>
         </div>
-        
       </div>
 
       <div className="">
-        {selectedTab === "personal" && <div><PersonalDetails singleBarber={singleBarber}></PersonalDetails></div>}
-        {selectedTab === "shop" && <div><ShopService singleBarber={singleBarber}></ShopService></div>}
+        {selectedTab === "personal" && (
+          <div>
+            <PersonalDetails singleBarber={singleBarber}></PersonalDetails>
+          </div>
+        )}
+        {selectedTab === "shop" && (
+          <div>
+            <ShopService singleBarber={singleBarber}></ShopService>
+          </div>
+        )}
 
-        {selectedTab === "barber" && <div><BarberTiming singleBarber={singleBarber}></BarberTiming></div>}
+        {selectedTab === "barber" && (
+          <div>
+            <BarberTiming singleBarber={singleBarber}></BarberTiming>
+          </div>
+        )}
 
-        {selectedTab === "photo" && <div><ShopPhoto singleBarber={singleBarber}></ShopPhoto></div>}
+        {selectedTab === "photo" && (
+          <div>
+            <ShopPhoto singleBarber={singleBarber}></ShopPhoto>
+          </div>
+        )}
       </div>
     </div>
   );

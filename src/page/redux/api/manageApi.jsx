@@ -44,15 +44,16 @@ const businessApi = baseApi.injectEndpoints({
       },
       providesTags: ["updateProfile"],
     }),
-
     getSingleBarberOwner: builder.query({
-      query: ({ id }) => {
+      query: (id) => {
         return {
           url: `/admin/saloon/${id}`,
           method: "GET",
         };
       },
-      providesTags: ["updateProfile"],
+      providesTags: (result, error, args) => [
+        { type: TagTypes.barberOwner, id: args },
+      ],
     }),
 
     getAllBarber: builder.query({
@@ -136,7 +137,7 @@ const businessApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: ["updateProfile"],
+      providesTags: [TagTypes.supports],
     }),
 
     getCustomer: builder.query({
@@ -189,7 +190,7 @@ const businessApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.supports],
     }),
 
     getSingleReply: builder.query({
