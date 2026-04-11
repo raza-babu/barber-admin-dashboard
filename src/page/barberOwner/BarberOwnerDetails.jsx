@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Navigate } from "../../Navigate";
 import { Switch } from "antd";
 import { PersonalDetails } from "./PersonalDetails";
-import { ShopService } from "./ShopService";
-import { BarberTiming } from "./BarberTiming";
+import ShopService from "./ShopService";
+import BarberTiming from "./BarberTiming";
 import { ShopPhoto } from "./ShopPhoto";
 import { useParams } from "react-router-dom";
 import { useGetSingleBarberOwnerQuery } from "../redux/api/manageApi";
@@ -47,7 +47,7 @@ export const BarberOwnerDetails = () => {
         <div className="flex justify-end">
           <Switch defaultChecked={true} />
         </div>
-        <div className="flex border-b">
+        <div className="flex border-b border-gray-400">
           <div
             onClick={() => setSelectedTab("personal")}
             className={` py-2.5   cursor-pointer ${
