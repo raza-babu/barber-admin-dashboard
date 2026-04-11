@@ -12,7 +12,7 @@ const ShopService = ({ singleBarber }) => {
                 className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200"
               >
                 {/* Header with service name */}
-                <div className="bg-sky-500 p-4">
+                <div className="bg-[#D17C51] p-4">
                   <h3 className="text-lg font-bold text-white truncate">
                     {service.serviceName}
                   </h3>
@@ -35,7 +35,7 @@ const ShopService = ({ singleBarber }) => {
                         Price
                       </span>
                       <span className="text-2xl font-bold text-blue-600">
-                        ${service.price.toFixed(2)}
+                        £{service.price.toFixed(2)}
                       </span>
                     </div>
 
