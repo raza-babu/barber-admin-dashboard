@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { Table, Button, Modal, Input } from "antd";
+import { Table, Button, Modal, Input, Pagination } from "antd";
 import { EyeOutlined, SearchOutlined } from "@ant-design/icons";
 import { Navigate } from "../../Navigate";
 import ReplyUser from "./ReplyUser";
@@ -10,19 +11,23 @@ const Support = () => {
   const [selectedSupport, setSelectedSupport] = useState(null);
   const [openAddModal, setOpenAddModal] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
+  const [pageSize, setPageSize] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const { data: supportData } = useGetAllSupportQuery();
+  const { data: supportData, isLoading, isFetching } = useGetAllSupportQuery();
 
   const [selectedUser, setSelectedUser] = useState(null);
   const handleEdit = (record) => {
     setSelectedUser(record);
     setOpenAddModal(true);
   };
+
+  const meta = supportData?.meta || {};
+
   useEffect(() => {
     if (supportData?.data) {
-
       const formattedData = supportData.data.map((item, index) => ({
-        key: index + 1,
+        key: Number(index + 1) + (meta?.page - 1) * pageSize,
         userName: item.userName,
         id: item.userId,
         message: item.message,
@@ -36,7 +41,7 @@ const Support = () => {
 
   const columns = [
     {
-      title: "#",
+      title: "Sl No.",
       dataIndex: "key",
       key: "key",
     },
@@ -57,7 +62,9 @@ const Support = () => {
       render: (status) => (
         <span
           className={`py-1 px-3 rounded-full ${
-            status === "CLOSED" ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"
+            status === "CLOSED"
+              ? "bg-red-100 text-red-600"
+              : "bg-green-100 text-green-600"
           }`}
         >
           {status}
@@ -69,7 +76,7 @@ const Support = () => {
       key: "viewDetails",
       render: (_, record) => (
         <Button
-           onClick={() => {
+          onClick={() => {
             setSelectedSupport(record);
             setOpen(true);
           }}
@@ -93,31 +100,38 @@ const Support = () => {
     },
   ];
 
+  const handlePageChange = (page, size) => {
+    setCurrentPage(page);
+    setPageSize(size);
+  };
+
   return (
     <div className="bg-white p-3 h-[87vh]">
       <div className="md:flex justify-between mb-4">
         <Navigate title={"Support"} />
-        <Input
-          placeholder="Search"
-          prefix={<SearchOutlined />}
-          className="w-64 px-4 py-2 rounded-lg bg-white"
-          onChange={(e) => {
-            const searchText = e.target.value.toLowerCase();
-            const filtered = supportData?.data?.filter((item) =>
-              item.userName.toLowerCase().includes(searchText)
-            );
-            setFilteredData(
-              filtered?.map((item, index) => ({
-                key: index + 1,
-                userName: item.userName,
-                message: item.message,
-                status: item.status,
-                type: item.type,
-                supportId: item.supportId,
-              }))
-            );
-          }}
-        />
+        <div>
+          <Input
+            placeholder="Search"
+            prefix={<SearchOutlined />}
+            className="w-64 px-4 py-2 rounded-lg bg-white"
+            onChange={(e) => {
+              const searchText = e.target.value.toLowerCase();
+              const filtered = supportData?.data?.filter((item) =>
+                item.userName.toLowerCase().includes(searchText),
+              );
+              setFilteredData(
+                filtered?.map((item, index) => ({
+                  key: index + 1,
+                  userName: item.userName,
+                  message: item.message,
+                  status: item.status,
+                  type: item.type,
+                  supportId: item.supportId,
+                })),
+              );
+            }}
+          />
+        </div>
       </div>
 
       <Table
@@ -125,7 +139,19 @@ const Support = () => {
         columns={columns}
         pagination={false}
         scroll={{ x: 900 }}
+        loading={isLoading || isFetching}
       />
+      {meta?.totalPages > 1 && (
+        <div className="mt-4 flex justify-center">
+          <Pagination
+            current={currentPage}
+            pageSize={pageSize}
+            total={meta?.total || 0}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+          />
+        </div>
+      )}
 
       <Modal
         title="Support Details"
@@ -153,7 +179,11 @@ const Support = () => {
         )}
       </Modal>
 
-      <ReplyUser setOpenAddModal={setOpenAddModal} openAddModal={openAddModal} selectedUser={selectedUser}/>
+      <ReplyUser
+        setOpenAddModal={setOpenAddModal}
+        openAddModal={openAddModal}
+        selectedUser={selectedUser}
+      />
     </div>
   );
 };

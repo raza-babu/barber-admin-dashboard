@@ -10,7 +10,7 @@ const businessApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: ["updateProfile"],
+      providesTags: [TagTypes.dashboard],
     }),
 
     getBarberOwner: builder.query({
@@ -409,7 +409,7 @@ const businessApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.terms],
     }),
 
     getTerms: builder.query({
@@ -419,7 +419,7 @@ const businessApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: ["updateProfile"],
+      providesTags: [TagTypes.terms],
     }),
 
     AddTerms: builder.mutation({
@@ -430,7 +430,7 @@ const businessApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["updateProfile"],
+      invalidatesTags: [TagTypes.terms],
     }),
 
     getAllAdminAccess: builder.query({
