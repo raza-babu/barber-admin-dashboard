@@ -44,9 +44,6 @@ export const BarberOwnerDetails = () => {
         <Navigate title={"Clients > Barber Time"}></Navigate>
       </div>
       <div className="">
-        <div className="flex justify-end">
-          <Switch defaultChecked={true} />
-        </div>
         <div className="flex border-b border-gray-400">
           <div
             onClick={() => setSelectedTab("personal")}
