@@ -12,7 +12,7 @@ const Dashboard = () => {
     <div className="p-1 min-h-screen">
       <div className=" grid md:grid-cols-4 grid-cols-2 gap-4 text-center py-3">
         <div className="bg-white py-6 rounded-md">
-          <p className=" mt-3 text-xl">Total Customer</p>
+          <p className=" mt-3 text-xl">Total Customers</p>
           <div className="flex justify-center my-2">
             <img src={logo1} alt="" />
           </div>
