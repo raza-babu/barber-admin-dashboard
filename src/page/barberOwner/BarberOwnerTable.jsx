@@ -1,11 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Table, Tag } from "antd";
+import { Table } from "antd";
 import { useMemo } from "react";
 import { MdOutlineStarPurple500 } from "react-icons/md";
 import { Link } from "react-router-dom";
-import OwnerBlockSwitch from "../../components/switch/OwnerBlockSwitch";
+// import OwnerBlockSwitch from "../../components/switch/OwnerBlockSwitch";
+import ChangeStatusModal from "../../components/modal/ChangeStatusModal";
 
-const BarberOwnerTable = ({ barberOwners, isLoading, isFetching, meta, pageSize }) => {
+const BarberOwnerTable = ({
+  barberOwners,
+  isLoading,
+  isFetching,
+  meta,
+  pageSize,
+}) => {
   const tableData = useMemo(() => {
     return barberOwners?.map((item, index) => ({
       key: index,
@@ -63,28 +70,38 @@ const BarberOwnerTable = ({ barberOwners, isLoading, isFetching, meta, pageSize 
       ),
     },
     {
+      title: "Verification Status",
+      dataIndex: "isVerified",
+      key: "isVerified",
+      render: (isVerified, record) => (
+        <>
+          <ChangeStatusModal isVerified={isVerified} userId={record.id} />
+        </>
+      ),
+    },
+    {
       title: "Contact",
       dataIndex: "contact",
       key: "contact",
     },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => (
-        <Tag
-          className="px-4 py-1 rounded-full"
-          color={status === "ACTIVE" ? "green" : "red"}
-        >
-          {status}
-        </Tag>
-      ),
-    },
-    {
-      title: "Block / Unblock",
-      key: "blocked",
-      render: (_, record) => <OwnerBlockSwitch record={record} />,
-    },
+    // {
+    //   title: "Status",
+    //   dataIndex: "status",
+    //   key: "status",
+    //   render: (status) => (
+    //     <Tag
+    //       className="px-4 py-1 rounded-full"
+    //       color={status === "ACTIVE" ? "green" : "red"}
+    //     >
+    //       {status}
+    //     </Tag>
+    //   ),
+    // },
+    // {
+    //   title: "Block / Unblock",
+    //   key: "blocked",
+    //   render: (_, record) => <OwnerBlockSwitch record={record} />,
+    // },
   ];
 
   return (

@@ -34,7 +34,16 @@ const businessApi = baseApi.injectEndpoints({
       },
       providesTags: [TagTypes.barberOwners],
     }),
-
+    approveSaloonOwner: builder.mutation({
+      query: ({ data, id }) => {
+        return {
+          url: `/users/${id}/update-saloon-owner-status`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+      invalidatesTags: [TagTypes.barberOwners],
+    }),
     getRegisterBarberOwner: builder.query({
       query: () => {
         return {
@@ -552,5 +561,6 @@ export const {
   useGetAllSubscriberQuery,
   useGetDasboardQuery,
   useDeleteSubscriptionMutation,
-  useGetNotificationsQuery
+  useGetNotificationsQuery,
+  useApproveSaloonOwnerMutation,
 } = businessApi;
