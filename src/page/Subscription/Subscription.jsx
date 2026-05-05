@@ -1,19 +1,18 @@
-import { message, Table } from "antd";
+import { Table } from "antd";
 import { Navigate } from "../../Navigate";
 import { useState, useMemo } from "react";
 import { AddSubscriptionModal } from "./AddSubscriptionModal";
 import { EditSubscriptionModal } from "./EditSubscriptionModal";
 import {
-  useDeleteSubscriptionMutation,
+  // useDeleteSubscriptionMutation,
   useGetSubscriptionQuery,
 } from "../redux/api/manageApi";
 import { FiEdit2 } from "react-icons/fi";
-import { RiDeleteBin6Line } from "react-icons/ri";
 
 const Subscription = () => {
   const [openAddModal, setOpenAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [deleteSubscription] = useDeleteSubscriptionMutation();
+  // const [deleteSubscription] = useDeleteSubscriptionMutation();
   // API Call
   const { data: subscriptionData, isLoading } = useGetSubscriptionQuery();
   const [selectedUser, setSelectedUser] = useState(null);
@@ -35,14 +34,14 @@ const Subscription = () => {
       status: item.status,
     }));
   }, [subscriptionData]);
-  const handleDeleteFaq = async (id) => {
-    try {
-      const res = await deleteSubscription(id).unwrap();
-      message.success(res?.message);
-    } catch (err) {
-      message.error(err?.data?.message);
-    }
-  };
+  // const handleDeleteFaq = async (id) => {
+  //   try {
+  //     const res = await deleteSubscription(id).unwrap();
+  //     message.success(res?.message);
+  //   } catch (err) {
+  //     message.error(err?.data?.message);
+  //   }
+  // };
   const columns = [
     {
       title: "#",
@@ -82,12 +81,12 @@ const Subscription = () => {
           </button>
 
           {/* 🗑 Delete */}
-          <button
+          {/* <button
             onClick={() => handleDeleteFaq(record?.key)}
             className="bg-red-500 p-2 rounded text-xl text-white"
           >
             <RiDeleteBin6Line />
-          </button>
+          </button> */}
         </div>
       ),
     },
