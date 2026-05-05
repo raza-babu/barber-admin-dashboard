@@ -19,6 +19,7 @@ const BarberOwnerTable = ({
       id: item.id,
       serial: Number(index + 1) + (meta?.page - 1) * pageSize,
       shopName: item.shopName,
+      email: item.email,
       avatar: item.shopLogo,
       city: item.shopAddress,
       rating: "5.0",
@@ -50,6 +51,11 @@ const BarberOwnerTable = ({
           </Link>
         </div>
       ),
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
     },
     {
       title: "City",
