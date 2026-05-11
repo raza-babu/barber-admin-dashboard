@@ -18,6 +18,7 @@ import { RiShieldUserLine } from "react-icons/ri";
 import { BsSubstack } from "react-icons/bs";
 import { HiSupport } from "react-icons/hi";
 import { useGetProfileQuery } from "../../page/redux/api/manageApi";
+import { BadgeDollarSign } from "lucide-react";
 
 const items = [
   {
@@ -62,6 +63,12 @@ const items = [
     label: "Barber",
     icon: <IoMdCut />,
     link: "/dashboard/barber",
+  },
+  {
+    key: "Payment",
+    label: "Payment",
+    icon: <BadgeDollarSign />,
+    link: "/dashboard/payments",
   },
   {
     key: "adPromotion",
@@ -121,10 +128,9 @@ const Header = () => {
 
   const onParentClick = (key) => {
     setExpandedKeys((prev) =>
-      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key]
+      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key],
     );
   };
-
 
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState("left");
@@ -240,7 +246,7 @@ const Header = () => {
                               onClick={() => {
                                 setSelectedKey(child.key);
                                 setExpandedKeys([]);
-                                onClose(); 
+                                onClose();
                               }}
                             >
                               <span className="block w-full text-black">

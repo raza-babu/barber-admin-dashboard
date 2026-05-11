@@ -13,7 +13,8 @@ const TagTypes = {
   privacy: "Privacy",
   terms: "Terms",
   supports: "Supports",
-  notifications: "Notifications"
+  notifications: "Notifications",
+  payments: "Payments"
 };
 
 export default TagTypes;

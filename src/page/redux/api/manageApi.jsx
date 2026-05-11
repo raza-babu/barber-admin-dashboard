@@ -34,6 +34,28 @@ const businessApi = baseApi.injectEndpoints({
       },
       providesTags: [TagTypes.barberOwners],
     }),
+
+    getAllPayment: builder.query({
+      query: (argsValues) => {
+        const params = new URLSearchParams();
+        const args = Object.keys(argsValues);
+
+        if (args !== undefined && args.length > 0) {
+          args.forEach((key) => {
+            if (argsValues[key]) {
+              params.append(key, argsValues[key]);
+            }
+          });
+        }
+
+        return {
+          url: `/payments/all`,
+          method: "GET",
+          params,
+        };
+      },
+      providesTags: [TagTypes.payments],
+    }),
     approveSaloonOwner: builder.mutation({
       query: ({ data, id }) => {
         return {
@@ -563,4 +585,5 @@ export const {
   useDeleteSubscriptionMutation,
   useGetNotificationsQuery,
   useApproveSaloonOwnerMutation,
+  useGetAllPaymentQuery,
 } = businessApi;

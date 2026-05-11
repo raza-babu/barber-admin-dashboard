@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import logo from "../../assets/logo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
@@ -15,6 +16,7 @@ import {
 import { RiShieldUserLine } from "react-icons/ri";
 import { BsSubstack } from "react-icons/bs";
 import { HiSupport } from "react-icons/hi";
+import { BadgeDollarSign } from "lucide-react";
 
 const items = [
   {
@@ -59,6 +61,12 @@ const items = [
     label: "Barber",
     icon: <IoMdCut />,
     link: "/dashboard/barber",
+  },
+  {
+    key: "Payment",
+    label: "Payment",
+    icon: <BadgeDollarSign />,
+    link: "/dashboard/payments",
   },
   {
     key: "adPromotion",
@@ -138,7 +146,7 @@ const SidBar = () => {
         activeParent.children
           ? activeParent.children.find((child) => child.link === currentPath)
               ?.key || activeParent.key
-          : activeParent.key
+          : activeParent.key,
       );
 
       if (activeParent.children && !expandedKeys.includes(activeParent.key)) {
@@ -149,7 +157,7 @@ const SidBar = () => {
 
   const onParentClick = (key) => {
     setExpandedKeys((prev) =>
-      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key]
+      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key],
     );
   };
 
@@ -164,7 +172,7 @@ const SidBar = () => {
       <div className="custom-sidebar-logo flex justify-center">
         <div>
           <div className="flex justify-center">
-            <img src={logo} alt="Logo" className="w-[40px]" />
+            <img src={logo} alt="Logo" className="w-10" />
           </div>
           <h1 className="text-white italic">Barber Time</h1>
         </div>

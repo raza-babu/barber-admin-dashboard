@@ -31,6 +31,7 @@ import AllShopRegistration from "../components/Dashboard/AllShopRegistration";
 import Support from "../page/support/Support";
 import ProtectedRoute from "../protectedRoute/ProtectedRoute";
 import AdminProtect from "../protectedRoute/AdminProtect";
+import Payment from "../page/payment/Payment";
 
 
 
@@ -84,11 +85,13 @@ export const router = createBrowserRouter([
         path: "/dashboard/premiumSubscribers",
         element: <PremiumSubscriber></PremiumSubscriber>
       },
-
-
       {
         path: "/dashboard/barber",
         element: <Barber></Barber>
+      },
+      {
+        path: "/dashboard/payments",
+        element: <Payment></Payment>
       },
       {
         path: "/dashboard/barber/barberDetails/:id",
