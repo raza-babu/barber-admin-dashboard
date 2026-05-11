@@ -12,12 +12,14 @@ const BarberTable = ({
   currentPage,
   setCurrentPage,
 }) => {
+  console.log(barbers);
 
   const tableData = useMemo(() => {
     return barbers?.map((item, index) => ({
       key: item.userId,
       serial: Number(index + 1) + (meta?.page - 1) * pageSize,
       barberName: item.fullName,
+      email: item.email,
       avatar:
         item.portfolio?.[0] ||
         "https://ui-avatars.com/api/?name=" + encodeURIComponent(item.fullName),
@@ -32,7 +34,7 @@ const BarberTable = ({
     {
       title: "S.N",
       dataIndex: "serial",
-      key: "serial"
+      key: "serial",
     },
     {
       title: "Barber Name",
@@ -50,6 +52,11 @@ const BarberTable = ({
           </div>
         </Link>
       ),
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
     },
     {
       title: "Shop",
