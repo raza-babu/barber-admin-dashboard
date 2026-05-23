@@ -15,13 +15,14 @@ const UserGrowth = () => {
   const { data: dashboardData } = useGetDasboardQuery();
 
 
-  const customerGrowth = dashboardData?.data?.customerGrowth || [];
+  const customerGrowth = dashboardData?.data?.userGrowth || [];
+  
 
 
   const chartData = useMemo(() => {
     return customerGrowth.map((item) => ({
-      name: item.month.split(" ")[0],
-      value: item.count,
+      name: item.date.split(" ")[0],
+      value: item.total,
     }));
   }, [customerGrowth]);
 

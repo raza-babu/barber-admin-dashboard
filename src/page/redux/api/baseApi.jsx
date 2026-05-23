@@ -4,6 +4,7 @@ import TagTypes from "../../../constant/tagType.constant";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://backend.barberstime.com/api/v1",
+  // baseUrl: "http://10.10.20.42:8080/api/v1",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().logInUser.token;
     if (token) {
