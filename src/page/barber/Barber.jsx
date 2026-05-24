@@ -39,7 +39,7 @@ export const Barber = () => {
         </div>
 
         <div className="flex gap-2">
-          <select
+          {/* <select
             className="rounded p-2 px-4 border border-[#C79A88]"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
@@ -51,7 +51,7 @@ export const Barber = () => {
             <option value="ACTIVE">Active</option>
             <option value="INACTIVE">Inactive</option>
             <option value="BLOCKED">Blocked</option>
-          </select>
+          </select> */}
           <Input
             placeholder="Search"
             prefix={<SearchOutlined />}

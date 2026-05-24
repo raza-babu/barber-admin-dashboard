@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { TbUserCircle } from "react-icons/tb";
 import {
-  MdOutlineReport,
   MdOutlineSettings,
   MdOutlineWorkspacePremium,
 } from "react-icons/md";
@@ -38,12 +37,12 @@ const items = [
     icon: <TbUserCircle />,
     link: "/dashboard/customer",
   },
-  {
-    key: "report",
-    label: "User Report",
-    icon: <MdOutlineReport />,
-    link: "/dashboard/userReport",
-  },
+  // {
+  //   key: "report",
+  //   label: "User Report",
+  //   icon: <MdOutlineReport />,
+  //   link: "/dashboard/userReport",
+  // },
   {
     key: "premium",
     label: "Premium Subscribers",

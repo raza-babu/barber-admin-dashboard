@@ -44,6 +44,10 @@ const AddAdministrator = ({ openAddModal, setOpenAddModal }) => {
   const handleImageChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
+      if (selectedFile.size > 2 * 1024 * 1024) {
+        message.error("Image size must be less than 2 MB!");
+        return;
+      }
       setFile(selectedFile);
       setImagePreview(URL.createObjectURL(selectedFile));
     }
@@ -171,7 +175,10 @@ const AddAdministrator = ({ openAddModal, setOpenAddModal }) => {
           <Form.Item
             label="Password"
             name="password"
-            rules={[{ required: true, message: "Please enter password" }]}
+            rules={[
+              { required: true, message: "Please enter password" },
+              { min: 8, message: "Password must be at least 8 characters long" }
+            ]}
           >
             <Input.Password placeholder="Type here" />
           </Form.Item>

@@ -4,7 +4,6 @@ import {
   Space,
   Tooltip,
   Select,
-  message,
   Pagination,
 } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
@@ -13,19 +12,18 @@ import { useState } from "react";
 import AddAdministrator from "./AddAdministrator";
 import EditAdministrator from "./EditAdministrator";
 import { FiEdit2 } from "react-icons/fi";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import {
-  useDeleteAdminAccessMutation,
   useGetAllAdminAccessQuery,
 } from "../redux/api/manageApi";
 import useDebounce from "../../hooks/useDebounce";
+import DeleteAdminModal from "../../components/modal/DeleteAdminModal";
+import placeholder_img from '../../assets/placeholder_img.png';
 
 const { Option } = Select;
 
 const Administrator = () => {
   const [openAddModal, setOpenAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [deleteUser] = useDeleteAdminAccessMutation();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
@@ -46,15 +44,8 @@ const Administrator = () => {
   };
 
   const meta = adminData?.meta || {};
-
-  const handleDeleteFaq = async (id) => {
-    try {
-      const res = await deleteUser(id).unwrap();
-      message.success(res?.message);
-    } catch (err) {
-      message.error(err?.data?.message);
-    }
-  };
+  console.log(adminData?.data)
+  
   const handlePageChange = (page) => setCurrentPage(page);
   const columns = [
     {
@@ -75,6 +66,10 @@ const Administrator = () => {
             src={record.avatar}
             alt="avatar"
             className="w-8 h-8 rounded-full object-cover"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = placeholder_img;
+            }}
           />
           <span>{text}</span>
         </div>
@@ -118,12 +113,7 @@ const Administrator = () => {
             </button>
           </Tooltip>
           <Tooltip title="Delete">
-            <button
-              onClick={() => handleDeleteFaq(record?.key)}
-              className="bg-red-500 p-2 rounded text-xl text-white"
-            >
-              <RiDeleteBin6Line />
-            </button>
+            <DeleteAdminModal userId={record.key}/>
           </Tooltip>
         </Space>
       ),
@@ -136,7 +126,7 @@ const Administrator = () => {
       key: admin.adminId,
       sl: index + 1,
       name: admin.adminName,
-      avatar: admin.adminImage,
+      avatar: admin?.adminImage || placeholder_img,
       email: admin.adminEmail,
       role: admin.role,
       access:
