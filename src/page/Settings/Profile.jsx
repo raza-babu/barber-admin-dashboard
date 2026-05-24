@@ -77,16 +77,6 @@ const Profile = () => {
           >
             <Input className="py-2" placeholder="First Name" />
           </Form.Item>
-          {/* <Form.Item
-            name="last"
-            label="Last Name"
-            rules={[
-              { required: true, message: "Please enter your last name!" },
-            ]}
-          >
-            <Input className="py-2" placeholder="Last Name" />
-          </Form.Item> */}
-
           <Form.Item
             name="email"
             label="Email Address"

@@ -414,7 +414,7 @@ const businessApi = baseApi.injectEndpoints({
       query: (data) => {
         return {
           url: `/users/update-profile`,
-          method: "PUT",
+          method: "PATCH",
           body: data,
         };
       },
