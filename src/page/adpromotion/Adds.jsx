@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Table, Space, message, Modal } from "antd";
+import { Table, Space, message, Modal, Pagination } from "antd";
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { AiOutlineEye } from "react-icons/ai";
@@ -8,18 +8,22 @@ import {
   useGetAddPromotionQuery,
 } from "../redux/api/manageApi";
 import EditPromotionModal from "./EditPromotionModal";
+import placeholder_img from '../../assets/placeholder_img.png';
 
 const Adds = () => {
   const [editModal, setEditModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [viewModal, setViewModal] = useState(false); // 👁 View modal state
   const [viewRecord, setViewRecord] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const [deleteAddPromotion] = useDeleteAddPromotionMutation();
-  const { data: addPromotionData, isLoading } = useGetAddPromotionQuery();
+  const { data: addPromotionData, isLoading, isFetching } = useGetAddPromotionQuery([
+    { name: "page", value: currentPage },
+    { name: "limit", value: pageSize },
+  ]);
 
-  if (isLoading) {
-    return <div className="p-4 text-center">Loading...</div>;
-  }
+  const meta = addPromotionData?.meta || {};
 
   const handleEdit = (record) => {
     setSelectedUser(record);
@@ -40,10 +44,12 @@ const Adds = () => {
     }
   };
 
+  console.log(addPromotionData?.data)
+
   const formattedData =
     addPromotionData?.data?.map((item, index) => ({
       key: item.id,
-      serial: `#${index + 1}`,
+      serial: Number(index + 1) + (meta?.page - 1) * pageSize,
       image: item.images?.[0],
       imageList: item.images,
       title: item.description,
@@ -55,9 +61,11 @@ const Adds = () => {
       duration: item.duration,
     })) || [];
 
+    console.log(addPromotionData?.data)
+
   const columns = [
     {
-      title: "S no.",
+       title: "S.N.",
       dataIndex: "serial",
       key: "serial",
       align: "left",
@@ -78,7 +86,7 @@ const Adds = () => {
               />
             ) : (
               <img
-                src={record.image}
+                src={record.image || placeholder_img}
                 alt="Ad"
                 className="w-14 h-14 rounded-md object-cover"
               />
@@ -134,6 +142,12 @@ const Adds = () => {
     },
   ];
 
+
+  const handlePageChange = (page, size) => {
+    setCurrentPage(page);
+    setPageSize(size);
+  };
+
   return (
     <div className="bg-white p-3 h-[87vh]">
       <Table
@@ -142,7 +156,18 @@ const Adds = () => {
         pagination={false}
         rowClassName="border-b border-gray-200"
         scroll={{ x: 600 }}
+        loading={isLoading || isFetching}
       />
+      {meta?.totalPages > 1 && (
+          <div className="mt-4 flex justify-center">
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              total={meta?.total || 0}
+              onChange={handlePageChange}
+            />
+          </div>
+        )}
 
       {/* ✏️ Edit Modal */}
       <EditPromotionModal
@@ -156,34 +181,44 @@ const Adds = () => {
         open={viewModal}
         onCancel={() => setViewModal(false)}
         footer={null}
-        title="Ad Details"
+        title={<span className="text-xl font-semibold">Ad Details</span>}
+        width={700}
       >
         {viewRecord && (
-          <div>
-            {viewRecord.image?.endsWith(".mp4") ? (
-              <video
-                src={viewRecord.image}
-                controls
-                className="w-full rounded-md mb-3"
-              />
-            ) : (
-              <img
-                src={viewRecord.image}
-                alt="Ad"
-                className="w-full rounded-md mb-3"
-              />
-            )}
+          <div className="mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5 max-h-[50vh] overflow-y-auto p-1">
+              {viewRecord?.imageList?.map((media, idx) => (
+                <div key={idx} className="rounded-lg overflow-hidden border border-gray-200 shadow-sm bg-gray-50 flex justify-center items-center h-48">
+                  {media?.endsWith(".mp4") ? (
+                    <video
+                      src={media}
+                      controls
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={media}
+                      alt={`Ad Media ${idx + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
 
-            <h3 className="font-semibold mb-2">{viewRecord.title}</h3>
-            <p className="text-gray-600 text-sm mb-1">
-              <strong>Date:</strong> {viewRecord.date}
-            </p>
-            <p className="text-gray-600 text-sm mb-1">
-              <strong>Duration:</strong> {viewRecord.duration}
-            </p>
-            <p className="text-gray-600 text-sm">
-              <strong>Description:</strong> {viewRecord.title}
-            </p>
+            <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 space-y-2">
+              <h3 className="font-semibold text-lg text-gray-800 mb-2">{viewRecord.title}</h3>
+              <p className="text-gray-600 text-sm flex items-center gap-2">
+                <span className="font-medium text-gray-800 w-24">Date:</span> {viewRecord.date}
+              </p>
+              <p className="text-gray-600 text-sm flex items-center gap-2">
+                <span className="font-medium text-gray-800 w-24">Duration:</span> {viewRecord.duration}
+              </p>
+              <p className="text-gray-600 text-sm flex items-start gap-2">
+                <span className="font-medium text-gray-800 w-24">Description:</span> 
+                <span className="flex-1">{viewRecord.title}</span>
+              </p>
+            </div>
           </div>
         )}
       </Modal>

@@ -21,13 +21,14 @@ const BarberOwnerTable = ({
       shopName: item.shopName,
       email: item.email,
       avatar: item.shopLogo,
-      city: item.shopAddress,
-      rating: "5.0",
-      contact: item.shopPhoneNumber || item.phoneNumber,
+      city: item.shopAddress !=="Unknown Address" ? item.shopAddress : "N/A",
+      rating: item?.ratingCount,
+      contact: item.phoneNumber || "N/A",
       status: item.isVerified ? "ACTIVE" : "BLOCKED",
       isVerified: item.isVerified,
     }));
   }, [barberOwners]);
+
 
   const columns = [
     {
@@ -63,6 +64,11 @@ const BarberOwnerTable = ({
       key: "city",
     },
     {
+      title: "Contact",
+      dataIndex: "contact",
+      key: "contact",
+    },
+    {
       title: "Rating",
       dataIndex: "rating",
       key: "rating",
@@ -71,7 +77,7 @@ const BarberOwnerTable = ({
           <span className="text-[#FFB400] text-xl">
             <MdOutlineStarPurple500 />
           </span>
-          {rating}
+          {rating.toFixed(2)}
         </div>
       ),
     },
@@ -84,11 +90,6 @@ const BarberOwnerTable = ({
           <ChangeStatusModal isVerified={isVerified} userId={record.id} />
         </>
       ),
-    },
-    {
-      title: "Contact",
-      dataIndex: "contact",
-      key: "contact",
     },
     // {
     //   title: "Status",

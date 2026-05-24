@@ -48,11 +48,6 @@ const PaymentTable = ({
       key: "customerName",
       render: (text, record) => (
         <div className="flex flex-col gap-2">
-          {/* <img
-            src={record.avatar}
-            alt="avatar"
-            className="w-8 h-8 rounded-full object-cover"
-          /> */}
           <span className="font-semibold">{text}</span>
           <span>{record?.userEmail}</span>
         </div>

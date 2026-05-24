@@ -23,6 +23,7 @@ const BarberOwner = () => {
   const barberOwners = data?.data || [];
   const meta = data?.meta || {};
 
+
   const handleStatusChange = (e) => {
     setStatus(e.target.value || ""); // Set status or clear it
     setCurrentPage(1); // Reset to first page when status changes

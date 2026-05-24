@@ -7,7 +7,6 @@ import useDebounce from "../../hooks/useDebounce";
 import PaymentTable from "./PaymentTable";
 
 const Payment = () => {
-  const [status, setStatus] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -23,20 +22,10 @@ const Payment = () => {
     { name: "limit", value: pageSize },
   ]);
 
-  // const {
-  //   data: customerData,
-  //   isLoading,
-  //   isFetching,
-  // } = useGetAllPaymentQuery({
-  //   status,
-  //   searchTerm: searchTerm,
-  //   page: currentPage,
-  //   limit: pageSize,
-
-  // });
 
   const payments = paymentData?.data || [];
   const meta = paymentData?.meta || {};
+
 
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
@@ -55,18 +44,6 @@ const Payment = () => {
         </div>
         <div className="flex justify-end items-center mb-4">
           <div className="flex gap-4">
-            <select
-              className="rounded p-2 px-4 border border-[#C79A88]"
-              value={status}
-              onChange={handleStatusChange}
-            >
-              <option value="" disabled>
-                Filter by status
-              </option>
-              <option value="">All</option>
-              <option value="ACTIVE">Active</option>
-              <option value="BLOCKED">Blocked</option>
-            </select>
             <Input
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search"

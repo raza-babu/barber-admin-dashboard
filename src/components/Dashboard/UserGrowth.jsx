@@ -17,7 +17,7 @@ const UserGrowth = () => {
   
   const chartData = customerGrowth.map((item) => ({
     name: item.date.split(" ")[0],
-    value: item.total,
+    users: item.total,
   }));
 
   return (
@@ -43,7 +43,7 @@ const UserGrowth = () => {
               <Tooltip />
               <Legend />
               <Bar
-                dataKey="value"
+                dataKey="users"
                 stackId="a"
                 fill="#AB684D"
                 radius={[25, 25, 0, 0]}

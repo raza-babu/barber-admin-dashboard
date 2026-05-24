@@ -36,14 +36,13 @@ const businessApi = baseApi.injectEndpoints({
     }),
 
     getAllPayment: builder.query({
-      query: (argsValues) => {
+      query: (args) => {
         const params = new URLSearchParams();
-        const args = Object.keys(argsValues);
-
+        
         if (args !== undefined && args.length > 0) {
-          args.forEach((key) => {
-            if (argsValues[key]) {
-              params.append(key, argsValues[key]);
+          args.forEach((item) => {
+            if (item.value) {
+              params.append(item.name, item.value);
             }
           });
         }
@@ -51,7 +50,7 @@ const businessApi = baseApi.injectEndpoints({
         return {
           url: `/payments/all`,
           method: "GET",
-          params,
+          params: params,
         };
       },
       providesTags: [TagTypes.payments],
@@ -307,10 +306,21 @@ const businessApi = baseApi.injectEndpoints({
     }),
 
     getAddPromotion: builder.query({
-      query: () => {
+      query: (args) => {
+        const params = new URLSearchParams();
+        
+        if (args !== undefined && args.length > 0) {
+          args.forEach((item) => {
+            if (item.value) {
+              params.append(item.name, item.value);
+            }
+          });
+        }
+
         return {
           url: `/ads`,
           method: "GET",
+          params: params,
         };
       },
       providesTags: [TagTypes.promotions],
