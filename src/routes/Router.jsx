@@ -1,16 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layout/dashboardLayout/DashboardLayout";
 import Dashboard from "../components/Dashboard/Dashboard";
-
-
-
 import Subscription from "../page/Subscription/Subscription";
 import Profile from "../page/Settings/Profile";
 import TermsCondition from "../page/Settings/TermsCondition";
 import FAQ from "../page/Settings/FAQ";
 import PrivacyPolicy from "../page/Settings/PrivacyPolicy";
-
-
 import ForgetPass from "../Auth/ForgetPass";
 import Verify from "../Auth/Verify";
 import ResetPass from "../Auth/ResetPass";
@@ -18,7 +13,6 @@ import Notification from "../page/Notification/Notification";
 import About from "../page/Settings/About";
 import Login from "../Auth/Login";
 import BarberOwner from "../page/barberOwner/BarberOwner";
-
 import { Barber } from "../page/barber/Barber";
 import Customer from "../page/customer/Customer";
 import BarberDetailsPage from "../page/barber/BarberDetailsPage";

@@ -6,8 +6,10 @@ import logo2 from '../../assets/header/pp.png'
 import logo3 from '../../assets/header/qq.png'
 import logo4 from '../../assets/header/hh.png'
 import { useGetDasboardQuery } from "../../page/redux/api/manageApi";
+import { Skeleton } from "antd";
+
 const Dashboard = () => {
-  const {data:dashboardData} = useGetDasboardQuery()
+  const {data:dashboardData, isLoading} = useGetDasboardQuery()
   return (
     <div className="p-1 min-h-screen">
       <div className=" grid md:grid-cols-4 grid-cols-2 gap-4 text-center py-3">
@@ -16,28 +18,44 @@ const Dashboard = () => {
           <div className="flex justify-center my-2">
             <img src={logo1} alt="" />
           </div>
-          <h1 className="text-3xl font-bold">{dashboardData?.data?.customerCount || '0'}</h1>
+          {isLoading ? (
+            <div className="flex justify-center"><Skeleton.Button active size="small" /></div>
+          ) : (
+            <h1 className="text-3xl font-bold">{dashboardData?.data?.customerCount || '0'}</h1>
+          )}
         </div>
         <div className="bg-white py-6 rounded-md">
           <p className=" mt-3 text-xl">Total Barber Owners</p>
           <div className="flex justify-center my-2">
             <img src={logo3} alt="" />
           </div>
-          <h1 className="text-3xl font-bold">{dashboardData?.data?.barberCount || '0'}</h1>
+          {isLoading ? (
+            <div className="flex justify-center"><Skeleton.Button active size="small" /></div>
+          ) : (
+            <h1 className="text-3xl font-bold">{dashboardData?.data?.barberCount || '0'}</h1>
+          )}
         </div>
          <div className="bg-white py-6 rounded-md">
           <p className=" mt-3 text-xl">Total Income</p>
           <div className="flex justify-center my-2">
             <img src={logo2} alt="" />
           </div>
-          <h1 className="text-3xl font-bold">{dashboardData?.data?.customerCount || '0'}</h1>
+          {isLoading ? (
+            <div className="flex justify-center"><Skeleton.Button active size="small" /></div>
+          ) : (
+            <h1 className="text-3xl font-bold">{dashboardData?.data?.customerCount || '0'}</h1>
+          )}
         </div>
          <div className="bg-white py-6 rounded-md">
           <p className=" mt-3 text-xl">Total Subscribers</p>
           <div className="flex justify-center my-2">
             <img src={logo4} alt="" />
           </div>
-          <h1 className="text-3xl font-bold">{dashboardData?.data?.customerCount || '0'}</h1>
+          {isLoading ? (
+            <div className="flex justify-center"><Skeleton.Button active size="small" /></div>
+          ) : (
+            <h1 className="text-3xl font-bold">{dashboardData?.data?.customerCount || '0'}</h1>
+          )}
         </div>
        
       </div>

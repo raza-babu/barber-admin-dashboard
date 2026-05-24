@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import React from "react";
+import { Skeleton } from "antd";
 import {
   ResponsiveContainer,
   AreaChart,
@@ -11,18 +12,14 @@ import {
 import { useGetDasboardQuery } from "../../page/redux/api/manageApi";
 
 export const SubscriptionGrowth = () => {
-  const { data: dashboardData } = useGetDasboardQuery();
-
+  const { data: dashboardData, isLoading } = useGetDasboardQuery();
 
   const earningGrowth = dashboardData?.data?.earningGrowth || [];
-
  
-  const chartData = useMemo(() => {
-    return earningGrowth.map((item) => ({
-      month: item.month.split(" ")[0], 
-      value: item.amount,
-    }));
-  }, [earningGrowth]);
+  const chartData = earningGrowth.map((item) => ({
+    month: item.month.split(" ")[0], 
+    value: item.amount,
+  }));
 
   return (
     <div>
@@ -30,22 +27,30 @@ export const SubscriptionGrowth = () => {
         <p className="text-xl font-medium">Earning Growth</p>
       </div>
 
-      <ResponsiveContainer width="95%" height={300}>
-        <AreaChart
-          data={chartData}
-          margin={{
-            top: 10,
-            left: 0,
-            bottom: 0,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3" />
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
-          <Area type="monotone" dataKey="value" stroke="#AB684D" fill="#AB684D" />
-        </AreaChart>
-      </ResponsiveContainer>
+      <div className="w-full h-[300px]">
+        {isLoading ? (
+          <div className="w-full h-full flex justify-center items-center">
+            <Skeleton active paragraph={{ rows: 6 }} />
+          </div>
+        ) : (
+          <ResponsiveContainer width="95%" height={300}>
+            <AreaChart
+              data={chartData}
+              margin={{
+                top: 10,
+                left: 0,
+                bottom: 0,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Area type="monotone" dataKey="value" stroke="#AB684D" fill="#AB684D" />
+            </AreaChart>
+          </ResponsiveContainer>
+        )}
+      </div>
     </div>
   );
 };
