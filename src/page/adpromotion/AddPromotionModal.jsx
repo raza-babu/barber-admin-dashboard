@@ -103,28 +103,58 @@ const AddPromotionModal = ({ openAddModal, setOpenAddModal }) => {
 
           {/* Date, Time, Duration */}
           <div className="grid grid-cols-3 gap-2 mb-4">
-            <Form.Item label="Start Date" name="startDate" className="mb-0">
+            <Form.Item
+              label="Start Date"
+              name="startDate"
+              className="mb-0"
+              dependencies={["endDate"]}
+              rules={[
+                { required: true, message: "Required" },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    const endDate = getFieldValue("endDate");
+                    if (!value || !endDate || value.valueOf() < endDate.valueOf()) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error("Must be before end date")
+                    );
+                  },
+                }),
+              ]}
+            >
               <DatePicker
                 placeholder="Start Date"
                 className="w-full"
                 style={{ height: 40 }}
               />
             </Form.Item>
-            <Form.Item label="End Date" name="endDate" className="mb-0">
+            <Form.Item
+              label="End Date"
+              name="endDate"
+              className="mb-0"
+              dependencies={["startDate"]}
+              rules={[
+                { required: true, message: "Required" },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    const startDate = getFieldValue("startDate");
+                    if (!value || !startDate || value.valueOf() > startDate.valueOf()) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error("Must be after start date")
+                    );
+                  },
+                }),
+              ]}
+            >
               <DatePicker
                 placeholder="End Date"
                 className="w-full"
                 style={{ height: 40 }}
               />
             </Form.Item>
-            {/* <Form.Item label="Duration" name="duration" className="mb-0">
-              <Input
-                type="number"
-                placeholder="Duration"
-                className="w-full"
-                style={{ height: 40 }}
-              />
-            </Form.Item> */}
           </div>
 
           {/* Description */}
