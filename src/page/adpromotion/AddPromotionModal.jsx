@@ -67,6 +67,7 @@ const AddPromotionModal = ({ openAddModal, setOpenAddModal }) => {
       message.error(message?.data?.error);
     }
   };
+  
   return (
     <Modal
       centered

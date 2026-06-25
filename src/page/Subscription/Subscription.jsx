@@ -1,7 +1,7 @@
 import { Table } from "antd";
 import { Navigate } from "../../Navigate";
 import { useState, useMemo } from "react";
-import { AddSubscriptionModal } from "./AddSubscriptionModal";
+import { AddSubscriptionModal } from "../../components/modal/AddSubscriptionModal";
 import { EditSubscriptionModal } from "./EditSubscriptionModal";
 import {
   // useDeleteSubscriptionMutation,
@@ -102,6 +102,7 @@ const Subscription = () => {
               {`(${subscriptionData?.data?.length || 0})`}
             </h1>
           </div>
+          <AddSubscriptionModal />
         </div>
 
         <div className="p-2">
@@ -117,11 +118,6 @@ const Subscription = () => {
           </div>
         </div>
       </div>
-
-      <AddSubscriptionModal
-        setOpenAddModal={setOpenAddModal}
-        openAddModal={openAddModal}
-      />
       <EditSubscriptionModal
         editModal={editModal}
         setEditModal={setEditModal}
